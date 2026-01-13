@@ -70,6 +70,14 @@ const SectionHeading = ({ sub, title, description, align = "center" }: any) => (
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
+
+  // New: H.S.R Layout WhatsApp Details
+  const phoneNumber = "918296962786"; // Formatted for WhatsApp (no + or spaces)
+  const displayPhone = "+91 82969 62786";
+  const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+    "Hello Sunday the Spa, I would like to book a session."
+  )}`;
+
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
@@ -96,7 +104,7 @@ const Navbar = () => {
                 scrolled ? "text-emerald-950" : "text-white"
               }`}
             >
-              EVA
+              SUNDAY
             </span>
             <div
               className={`w-[1px] h-4 ${
@@ -108,18 +116,30 @@ const Navbar = () => {
                 scrolled ? "text-emerald-800" : "text-stone-200"
               }`}
             >
-              International Spa
+              The Spa
             </span>
           </div>
 
-          <div
-            className={`hidden md:flex items-center gap-12 text-[11px] uppercase tracking-[0.2em] font-bold ${
-              scrolled ? "text-emerald-950" : "text-white/90"
-            }`}
-          >
-            <button className="bg-emerald-950 text-amber-200 cursor-pointer px-8 py-3 rounded-full text-[18px] hover:bg-emerald-800 transition-all shadow-xl shadow-emerald-950/10">
-              Call Now
-            </button>
+          <div className="hidden md:flex items-center gap-12">
+            {/* Number Display */}
+            <span
+              className={`text-[11px] font-bold tracking-widest ${
+                scrolled ? "text-emerald-950/60" : "text-white/60"
+              }`}
+            >
+              {displayPhone}
+            </span>
+
+            {/* WhatsApp Link Button */}
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-emerald-950 text-amber-200 cursor-pointer px-8 py-3 rounded-full text-[14px] flex items-center gap-2 hover:bg-emerald-800 transition-all shadow-xl shadow-emerald-950/10"
+            >
+              <MessageCircle size={16} />
+              Book via WhatsApp
+            </a>
           </div>
         </div>
       </div>
@@ -160,7 +180,7 @@ const Hero = () => {
           </h1>
           <div className="flex flex-col md:flex-row items-center justify-center gap-8 mt-12">
             <button className="group relative px-10 py-5 bg-amber-400 text-emerald-950 font-bold rounded-full overflow-hidden transition-all">
-              <span className="relative z-10">Explore Rituals</span>
+              <span className="relative z-10">Book a treatment</span>
               <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
             </button>
             <button className="flex items-center gap-4 text-white group">
@@ -257,52 +277,91 @@ const Services = () => (
   </section>
 );
 
-const Footer = () => (
-  <footer className="bg-emerald-950 text-stone-300 py-24">
-    <div className="container mx-auto px-6">
-      <div className="grid lg:grid-cols-4 gap-16 mb-20">
-        <div className="col-span-2">
-          <h2 className="text-4xl font-serif text-white mb-8 max-w-sm">
-            Ready to begin your journey to serenity?
-          </h2>
-          <div className="flex gap-4">
-            <button className="bg-amber-400 text-emerald-950 px-8 py-4 rounded-full font-bold text-sm">
-              Schedule Appointment
-            </button>
-            <button className="p-4 border border-white/20 rounded-full hover:bg-white/5 transition">
-              <Instagram size={20} />
-            </button>
+const Footer = () => {
+  const phoneNumber = "918296962786";
+  const displayPhone = "+91 82969 62786";
+  const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+    "Hello Sunday the Spa, I would like to book a session."
+  )}`;
+
+  return (
+    <footer className="bg-emerald-950 text-stone-300 py-24">
+      <div className="container mx-auto px-6">
+        <div className="grid lg:grid-cols-4 gap-16 mb-20">
+          <div className="col-span-2">
+            <h2 className="text-4xl font-serif text-white mb-8 max-w-sm">
+              Ready to begin your journey to serenity?
+            </h2>
+            <div className="flex flex-wrap gap-4">
+              {/* Primary WhatsApp Action */}
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-amber-400 text-emerald-950 px-8 py-4 rounded-full font-bold text-sm hover:bg-white transition-colors flex items-center gap-2"
+              >
+                <MessageCircle size={18} />
+                Book via WhatsApp
+              </a>
+              <div className="flex gap-2">
+                <button className="p-4 border border-white/20 rounded-full hover:bg-white/5 transition">
+                  <Instagram size={20} />
+                </button>
+                <button className="p-4 border border-white/20 rounded-full hover:bg-white/5 transition">
+                  <Facebook size={20} />
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h4 className="text-white text-xs font-bold uppercase tracking-[0.2em] mb-6">
+              H.S.R Layout
+            </h4>
+            <p className="text-sm leading-relaxed opacity-70">
+              No. 14, 13th Cross,
+              <br />
+              9th Main Road, Sector 6,
+              <br />
+              H.S.R Layout, Bengaluru,
+              <br />
+              Karnataka - 560102
+            </p>
+          </div>
+
+          <div>
+            <h4 className="text-white text-xs font-bold uppercase tracking-[0.2em] mb-6">
+              Contact Us
+            </h4>
+            {/* Clickable Phone Number */}
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group block"
+            >
+              <p className="text-lg text-amber-200 mb-2 group-hover:text-white transition-colors">
+                {displayPhone}
+              </p>
+              <p className="text-[10px] text-amber-200/50 uppercase tracking-widest flex items-center gap-2">
+                <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
+                Available on WhatsApp
+              </p>
+            </a>
+            <p className="text-sm opacity-70 underline cursor-pointer hover:text-white transition lowercase mt-6">
+              sundaythespa@inaelite.in
+            </p>
           </div>
         </div>
-        <div>
-          <h4 className="text-white text-xs font-bold uppercase tracking-[0.2em] mb-6">
-            The Sanctuary
-          </h4>
-          <p className="text-sm leading-relaxed opacity-70">
-            No. 72, 1st Floor, 6th Cross Road,
-            <br />
-            Koramangala 5th Block, Bengaluru
-            <br />
-            Karnataka 560095
-          </p>
-        </div>
-        <div>
-          <h4 className="text-white text-xs font-bold uppercase tracking-[0.2em] mb-6">
-            Contact
-          </h4>
-          <p className="text-lg text-amber-200 mb-2">+91 88846 66814</p>
-          <p className="text-sm opacity-70 underline cursor-pointer hover:text-white transition">
-            hello@evaspa.in
-          </p>
+
+        <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between text-[10px] uppercase tracking-[0.1em] opacity-40">
+          <p>© 2026 SUNDAY THE SPA. ALL RIGHTS RESERVED.</p>
+          <p>H.S.R Layout | Bengaluru</p>
         </div>
       </div>
-      <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between text-[10px] uppercase tracking-[0.1em] opacity-40">
-        <p>© 2026 EVA INTERNATIONAL SPA. ALL RIGHTS RESERVED.</p>
-        <p>Crafted for Excellence</p>
-      </div>
-    </div>
-  </footer>
-);
+    </footer>
+  );
+};
 
 // --- 1. Philosophy / Sensory Section ---
 const Philosophy = () => {
@@ -641,8 +700,9 @@ const BookingSection = () => {
                 <span className="italic text-amber-100">moment of pause</span>
               </h2>
               <p className="text-emerald-100/60 font-light text-lg max-w-sm">
-                For immediate bookings or special requests, our concierge is
-                available via WhatsApp or Phone.
+                For immediate bookings at our H.S.R Layout sanctuary, our
+                concierge is available at{" "}
+                <span className="text-amber-200">+91 82969 62786</span>.
               </p>
             </div>
           </div>
@@ -704,19 +764,303 @@ const BookingSection = () => {
   );
 };
 
+// --- Brands Carousel Section ---
+const Brands = () => {
+  const brandLogos = [
+    {
+      name: "Casmara",
+      url: "/casmara.png",
+    },
+    {
+      name: "Kama",
+      url: "/kama.svg",
+    },
+    {
+      name: "Kama Ayurveda",
+      url: "/rica.png",
+    },
+    {
+      name: "Babor",
+      url: "/nasha.png",
+    },
+    {
+      name: "Elemis",
+      url: "ola.avif",
+    },
+  ];
+
+  // Duplicate the list for seamless looping
+  const duplicatedLogos = [...brandLogos, ...brandLogos, ...brandLogos];
+
+  return (
+    <section className="py-24 bg-white border-y border-stone-100 overflow-hidden">
+      <div className="container mx-auto px-6 mb-16">
+        <SectionHeading
+          sub="Trusted Partners"
+          title="Brands"
+          description="We exclusively use world-class botanical products for all our treatments."
+        />
+      </div>
+
+      <div className="relative flex overflow-hidden group">
+        <motion.div
+          className="flex whitespace-nowrap gap-20 items-center"
+          animate={{
+            x: ["0%", "-50%"],
+          }}
+          transition={{
+            duration: 30,
+            ease: "linear",
+            repeat: Infinity,
+          }}
+        >
+          {duplicatedLogos.map((brand, idx) => (
+            <div
+              key={idx}
+              className="flex flex-col items-center justify-center w-48"
+            >
+              <img
+                src={brand.url}
+                alt={brand.name}
+                className="h-8 md:h-12 w-auto object-contain transition-all duration-500 cursor-pointer"
+              />
+            </div>
+          ))}
+        </motion.div>
+
+        {/* Soft Fade Edges */}
+        <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-white to-transparent z-10" />
+        <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-white to-transparent z-10" />
+      </div>
+    </section>
+  );
+};
+
+// --- Membership Packages Section ---
+const Memberships = () => {
+  const tiers = [
+    {
+      name: "Bronze",
+      price: "5,000",
+      validity: "6 Months",
+      sessions: "4 Sessions",
+      types: ["Aroma", "Swedish"],
+      description:
+        "Invigorate in our private retreat, designed to help you escape the daily hustle.",
+      color: "border-orange-200 bg-orange-50/30",
+      accent: "text-orange-800",
+    },
+    {
+      name: "Silver",
+      price: "6,000",
+      validity: "6 Months",
+      sessions: "4 Sessions",
+      types: ["Aroma", "Swedish", "Balinese"],
+      description:
+        "The ultimate weekend experience created with treasures from around the world.",
+      color: "border-stone-200 bg-stone-50/50",
+      accent: "text-stone-600",
+    },
+    {
+      name: "Gold",
+      price: "10,000",
+      validity: "1 Year",
+      sessions: "7 Sessions",
+      types: ["Aroma", "Swedish", "Balinese", "Deep Tissue"],
+      description:
+        "An unparalleled luxury experience that creates a category of its own.",
+      color: "border-amber-200 bg-amber-50/30",
+      accent: "text-amber-700",
+      popular: true,
+    },
+    {
+      name: "Platinum",
+      price: "15,000",
+      validity: "1 Year",
+      sessions: "12 Sessions",
+      types: [
+        "Aroma",
+        "Swedish",
+        "Balinese",
+        "Deep Tissue",
+        "Thai Yoga",
+        "Poultice",
+      ],
+      description:
+        "The peak of pampering. Enjoy a complete suite of several soothing treatments.",
+      color: "border-emerald-200 bg-emerald-50/50",
+      accent: "text-emerald-800",
+    },
+  ];
+
+  return (
+    <section id="memberships" className="py-32 bg-white">
+      <div className="container mx-auto px-6">
+        <SectionHeading
+          sub="Exclusive Benefits"
+          title="Membership Tiers"
+          description="Invest in your long-term well-being with our curated membership programs."
+        />
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {tiers.map((tier, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1 }}
+              className={`relative p-8 rounded-[2.5rem] border-2 ${tier.color} flex flex-col justify-between hover:shadow-xl transition-all duration-500`}
+            >
+              {tier.popular && (
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-amber-400 text-emerald-950 text-[10px] font-bold uppercase tracking-widest px-4 py-1.5 rounded-full shadow-md">
+                  Most Requested
+                </div>
+              )}
+
+              <div>
+                <span
+                  className={`text-xs font-bold uppercase tracking-[0.2em] ${tier.accent}`}
+                >
+                  {tier.name}
+                </span>
+                <div className="mt-4 mb-6">
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-stone-400 text-sm">₹</span>
+                    <span className="text-4xl font-serif text-emerald-950">
+                      {tier.price}
+                    </span>
+                  </div>
+                  <p className="text-[10px] text-stone-400 font-bold uppercase mt-1">
+                    + 18% GST Extra
+                  </p>
+                </div>
+
+                <div className="space-y-4 mb-8">
+                  <div className="flex items-center gap-3">
+                    <Clock size={16} className="text-emerald-900/40" />
+                    <span className="text-sm text-stone-600">
+                      {tier.validity} Validity
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Sparkles size={16} className="text-emerald-900/40" />
+                    <span className="text-sm font-bold text-emerald-900">
+                      {tier.sessions}
+                    </span>
+                  </div>
+                  <div className="pt-4 border-t border-stone-200/50">
+                    <p className="text-[10px] uppercase font-bold text-stone-400 tracking-wider mb-2">
+                      Included Massages:
+                    </p>
+                    <p className="text-xs leading-relaxed text-stone-500 italic">
+                      {tier.types.join(", ")}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <p className="text-xs text-stone-400 leading-relaxed mb-6 italic">
+                  "{tier.description}"
+                </p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// --- Location & Map Section ---
+const LocationSection = () => {
+  const mapAddress =
+    "Sunday the Spa, No. 14, 13th Cross, 9th Main Road, Sector 6, H.S.R Layout, Bengaluru";
+  const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
+    mapAddress
+  )}`;
+
+  return (
+    <section className="py-24 bg-stone-50">
+      <div className="container mx-auto px-6">
+        <div className="flex flex-col lg:flex-row gap-12 items-center">
+          {/* Map Image/Placeholder */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            className="w-full lg:w-3/5 aspect-video bg-emerald-900/10 rounded-[3rem] overflow-hidden relative group"
+          >
+            <img
+              src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=2000"
+              alt="Map Location"
+              className="w-full h-full object-cover grayscale opacity-50 group-hover:opacity-70 transition-opacity duration-700"
+            />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="bg-white/90 backdrop-blur-md p-6 rounded-3xl shadow-2xl flex flex-col items-center gap-4 border border-emerald-900/5">
+                <div className="w-12 h-12 bg-emerald-950 rounded-full flex items-center justify-center text-amber-400">
+                  <MapPin size={24} />
+                </div>
+                <div className="text-center">
+                  <p className="text-emerald-950 font-bold text-sm">
+                    Find Us in Sector 6
+                  </p>
+                  <p className="text-stone-500 text-[10px] uppercase tracking-widest mt-1">
+                    H.S.R Layout, Bengaluru
+                  </p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Text & Action */}
+          <div className="w-full lg:w-2/5 space-y-8">
+            <div className="space-y-4">
+              <span className="text-emerald-800 font-bold uppercase text-[10px] tracking-[0.3em]">
+                The Sanctuary
+              </span>
+              <h2 className="text-4xl font-serif text-emerald-950">
+                Visit our H.S.R Layout Branch
+              </h2>
+              <p className="text-stone-500 font-light leading-relaxed">
+                Located in the heart of Sector 6, our sanctuary provides a quiet
+                escape from the city's energy. Ample parking and a serene
+                environment await you.
+              </p>
+            </div>
+
+            <a
+              href={googleMapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-4 bg-white border border-stone-200 px-8 py-4 rounded-full text-emerald-950 font-bold text-xs uppercase tracking-widest hover:bg-emerald-950 hover:text-white transition-all shadow-sm"
+            >
+              Get Directions <ArrowRight size={16} />
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 export default function Home() {
   return (
     <main className="bg-[#fdfcfb] selection:bg-emerald-200">
       <AmbientBackground />
       <Navbar />
       <Hero />
+      <Brands />
       <div className="relative z-10 bg-[#fdfcfb]">
-        {/* Features icons from previous turn */}
-        <Philosophy /> {/* NEW */}
+        <Philosophy />
         <Services />
-        <SignatureRituals /> {/* NEW */}
-        <Testimonials /> {/* NEW */}
+        {/* <SignatureRituals /> */}
+        <Memberships />
+        <Testimonials />
         <BookingSection />
+
+        {/* Added Location section here */}
+        <LocationSection />
+
         <Footer />
       </div>
     </main>
