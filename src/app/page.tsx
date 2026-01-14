@@ -27,6 +27,38 @@ import {
   useTransform,
 } from "framer-motion";
 
+const CONTACT_NUMBER = "918296962786";
+const DISPLAY_PHONE = "+91 82969 62786";
+const WHATSAPP_MESSAGE = encodeURIComponent(
+  "Hello Sunday the Spa, I would like to book a session."
+);
+const WHATSAPP_URL = `https://wa.me/${CONTACT_NUMBER}?text=${WHATSAPP_MESSAGE}`;
+
+const FloatingCTA = () => (
+  <div className="fixed bottom-6 right-6 flex flex-col gap-4 z-[100]">
+    <motion.a
+      href={`tel:+${CONTACT_NUMBER}`}
+      initial={{ scale: 0, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      whileHover={{ scale: 1.1 }}
+      className="bg-white text-emerald-950 p-4 rounded-full shadow-2xl border border-emerald-100 flex items-center justify-center"
+    >
+      <Phone size={24} />
+    </motion.a>
+    <motion.a
+      href={WHATSAPP_URL}
+      target="_blank"
+      initial={{ scale: 0, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      transition={{ delay: 0.1 }}
+      whileHover={{ scale: 1.1 }}
+      className="bg-green-500 text-white p-4 rounded-full shadow-2xl flex items-center justify-center"
+    >
+      <MessageCircle size={24} />
+    </motion.a>
+  </div>
+);
+
 // --- Sophisticated Background Elements ---
 const AmbientBackground = () => (
   <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
@@ -251,6 +283,13 @@ const Services = () => (
       </div>
 
       <div className="grid md:grid-cols-3 gap-12">
+        <ExperienceCard
+          title="Swedish Essence"
+          category="Relaxation"
+          price="1,800" // Updated price
+          image="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=800"
+          delay={0.1}
+        />
         <ExperienceCard
           title="Royal Thai Stretch"
           category="Flexibility"
@@ -675,7 +714,44 @@ const Testimonials = () => {
   );
 };
 
-const BookingSection = () => {
+const BookingSection = ({ tracking }: { tracking: any }) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    // PASTE YOUR GOOGLE WEB APP URL HERE
+    const scriptURL =
+      "https://script.google.com/macros/s/AKfycbwauNJApMDduZWEBzATK2WWRgfkWFK3kedFlYdY3NhKtSmNOdeiR2NHQDHlBY3Y0ORxWw/exec";
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    try {
+      // Using 'no-cors' mode is often necessary with Google Apps Script
+      // to avoid CORS errors, though it won't let you read the response body.
+      await fetch(scriptURL, {
+        method: "POST",
+        body: formData,
+        mode: "no-cors",
+      });
+
+      setIsSuccess(true);
+      form.reset();
+
+      // Optional: Reset success message after 10 seconds to allow new bookings
+      setTimeout(() => setIsSuccess(false), 10000);
+    } catch (error) {
+      console.error("Submission Error:", error);
+      alert(
+        "There was an issue sending your inquiry. Please contact us via WhatsApp or Phone directly."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <section id="contact" className="py-32 bg-white relative overflow-hidden">
       <div className="container mx-auto px-6">
@@ -690,7 +766,6 @@ const BookingSection = () => {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-950/40 to-transparent" />
             </div>
-
             <div className="relative z-10">
               <span className="text-amber-400 font-bold tracking-[0.3em] uppercase text-xs mb-4 block">
                 Reservations
@@ -702,61 +777,187 @@ const BookingSection = () => {
               <p className="text-emerald-100/60 font-light text-lg max-w-sm">
                 For immediate bookings at our H.S.R Layout sanctuary, our
                 concierge is available at{" "}
-                <span className="text-amber-200">+91 82969 62786</span>.
+                <span className="text-amber-200">{DISPLAY_PHONE}</span>.
               </p>
             </div>
           </div>
 
-          {/* Right Side: Elegant Form */}
+          {/* Right Side: Elegant Form / Success State */}
           <div className="lg:w-1/2 bg-white p-12 lg:p-20 flex flex-col justify-center">
-            <form className="space-y-8">
-              <div className="grid md:grid-cols-2 gap-8">
-                <div className="space-y-2">
-                  <label className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
-                    Full Name
-                  </label>
+            <AnimatePresence mode="wait">
+              {isSuccess ? (
+                <motion.div
+                  key="success"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="text-center space-y-6"
+                >
+                  <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto text-emerald-600">
+                    <CheckCircle2 size={40} />
+                  </div>
+                  <div>
+                    <h3 className="text-3xl font-serif text-emerald-950 mb-2">
+                      Request Sent
+                    </h3>
+                    <p className="text-stone-500 font-light">
+                      Thank you for choosing Sunday the Spa. Our concierge will
+                      reach out to you within 15 minutes to confirm your slot.
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setIsSuccess(false)}
+                    className="text-emerald-900 font-bold text-xs uppercase tracking-widest underline"
+                  >
+                    Send another inquiry
+                  </button>
+                </motion.div>
+              ) : (
+                <motion.form
+                  key="form"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="space-y-8"
+                  onSubmit={handleSubmit}
+                >
+                  {/* --- Hidden Tracking Fields --- */}
+                  <input type="hidden" name="gclid" value={tracking.gclid} />
                   <input
-                    type="text"
-                    className="w-full border-b border-stone-200 py-3 focus:border-amber-500 outline-none transition bg-transparent text-emerald-950 placeholder:text-stone-300"
-                    placeholder="E.g. Julianne Moore"
+                    type="hidden"
+                    name="utm_source"
+                    value={tracking.utm_source}
                   />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
-                    Phone Number
-                  </label>
                   <input
-                    type="tel"
-                    className="w-full border-b border-stone-200 py-3 focus:border-amber-500 outline-none transition bg-transparent text-emerald-950 placeholder:text-stone-300"
-                    placeholder="+91 00000 00000"
+                    type="hidden"
+                    name="utm_medium"
+                    value={tracking.utm_medium}
                   />
-                </div>
-              </div>
+                  <input
+                    type="hidden"
+                    name="utm_campaign"
+                    value={tracking.utm_campaign}
+                  />
+                  <input
+                    type="hidden"
+                    name="utm_term"
+                    value={tracking.utm_term}
+                  />
+                  <input
+                    type="hidden"
+                    name="utm_content"
+                    value={tracking.utm_content}
+                  />
 
-              <div className="space-y-2">
-                <label className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
-                  Preferred Ritual
-                </label>
-                <select className="w-full border-b border-stone-200 py-3 focus:border-amber-500 outline-none transition bg-transparent text-emerald-950 cursor-pointer">
-                  <option>Select an experience</option>
-                  <option>Royal Thai Stretch</option>
-                  <option>Ethereal Aromatherapy</option>
-                  <option>Deep Tissue Release</option>
-                  <option>Signature Package</option>
-                </select>
-              </div>
+                  {/* Row 1: Name & Phone */}
+                  <div className="grid md:grid-cols-2 gap-8">
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
+                        Full Name
+                      </label>
+                      <input
+                        name="name"
+                        type="text"
+                        required
+                        className="w-full border-b border-stone-200 py-3 focus:border-amber-500 outline-none transition bg-transparent text-emerald-950 placeholder:text-stone-300"
+                        placeholder="Your Name"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
+                        Phone Number
+                      </label>
+                      <input
+                        name="phone"
+                        type="tel"
+                        required
+                        className="w-full border-b border-stone-200 py-3 focus:border-amber-500 outline-none transition bg-transparent text-emerald-950 placeholder:text-stone-300"
+                        placeholder="+91"
+                      />
+                    </div>
+                  </div>
 
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full bg-emerald-950 text-amber-200 font-bold py-5 rounded-full mt-6 shadow-xl shadow-emerald-900/10 hover:bg-emerald-900 transition flex items-center justify-center gap-3"
-              >
-                Send Inquiry <ArrowRight size={18} />
-              </motion.button>
-              <p className="text-center text-[10px] text-stone-400 uppercase tracking-widest">
-                Response time: &lt; 15 minutes
-              </p>
-            </form>
+                  {/* Row 2: Date & Time */}
+                  <div className="grid md:grid-cols-2 gap-8">
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
+                        Preferred Date
+                      </label>
+                      <input
+                        name="date"
+                        type="date"
+                        required
+                        className="w-full border-b border-stone-200 py-3 focus:border-amber-500 outline-none transition bg-transparent text-emerald-950 cursor-pointer"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
+                        Preferred Time
+                      </label>
+                      <input
+                        name="time"
+                        type="time"
+                        required
+                        className="w-full border-b border-stone-200 py-3 focus:border-amber-500 outline-none transition bg-transparent text-emerald-950 cursor-pointer"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Row 3: Service Selection */}
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
+                      Preferred Ritual
+                    </label>
+                    <select
+                      name="ritual"
+                      required
+                      className="w-full border-b border-stone-200 py-3 focus:border-amber-500 outline-none transition bg-transparent text-emerald-950 cursor-pointer"
+                    >
+                      <option value="">Select an experience</option>
+                      <option value="Swedish Essence (₹1800)">
+                        Swedish Essence (₹1800)
+                      </option>
+                      <option value="Royal Thai Stretch (₹2199)">
+                        Royal Thai Stretch (₹2199)
+                      </option>
+                      <option value="Ethereal Aromatherapy (₹2499)">
+                        Ethereal Aromatherapy (₹2499)
+                      </option>
+                      <option value="Deep Tissue Release (₹2899)">
+                        Deep Tissue Release (₹2899)
+                      </option>
+                      <option value="Koramangala Escape Package">
+                        Koramangala Escape Package
+                      </option>
+                    </select>
+                  </div>
+
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    disabled={isSubmitting}
+                    type="submit"
+                    className={`w-full bg-emerald-950 text-amber-200 font-bold py-5 rounded-full mt-6 shadow-xl shadow-emerald-900/10 hover:bg-emerald-900 transition flex items-center justify-center gap-3 ${
+                      isSubmitting ? "opacity-70 cursor-not-allowed" : ""
+                    }`}
+                  >
+                    {isSubmitting ? (
+                      <span className="flex items-center gap-2">
+                        <span className="w-4 h-4 border-2 border-amber-200 border-t-transparent rounded-full animate-spin" />
+                        Processing...
+                      </span>
+                    ) : (
+                      <>
+                        Send Inquiry <ArrowRight size={18} />
+                      </>
+                    )}
+                  </motion.button>
+
+                  <p className="text-center text-[10px] text-stone-400 uppercase tracking-widest">
+                    Immediate confirmation within 15 minutes
+                  </p>
+                </motion.form>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       </div>
@@ -1044,10 +1245,46 @@ const LocationSection = () => {
 };
 
 export default function Home() {
+  const [trackingData, setTrackingData] = useState({
+    gclid: "",
+    utm_source: "",
+    utm_medium: "",
+    utm_campaign: "",
+    utm_term: "",
+    utm_content: "",
+  });
+
+  useEffect(() => {
+    // 1. Get current URL params
+    const params = new URLSearchParams(window.location.search);
+    const trackingFields = [
+      "gclid",
+      "utm_source",
+      "utm_medium",
+      "utm_campaign",
+      "utm_term",
+      "utm_content",
+    ];
+
+    let updatedData: any = {};
+
+    trackingFields.forEach((field) => {
+      // Priority: URL Param > LocalStorage > Default Empty
+      const value =
+        params.get(field) || localStorage.getItem(`track_${field}`) || "";
+      if (value) {
+        localStorage.setItem(`track_${field}`, value);
+        updatedData[field] = value;
+      }
+    });
+
+    setTrackingData((prev) => ({ ...prev, ...updatedData }));
+  }, []);
   return (
     <main className="bg-[#fdfcfb] selection:bg-emerald-200">
       <AmbientBackground />
       <Navbar />
+      <FloatingCTA />
       <Hero />
       <Brands />
       <div className="relative z-10 bg-[#fdfcfb]">
@@ -1056,7 +1293,7 @@ export default function Home() {
         {/* <SignatureRituals /> */}
         <Memberships />
         <Testimonials />
-        <BookingSection />
+        <BookingSection tracking={trackingData} />
 
         {/* Added Location section here */}
         <LocationSection />
