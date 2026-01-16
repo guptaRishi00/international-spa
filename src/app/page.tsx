@@ -34,30 +34,50 @@ const WHATSAPP_MESSAGE = encodeURIComponent(
 );
 const WHATSAPP_URL = `https://wa.me/${CONTACT_NUMBER}?text=${WHATSAPP_MESSAGE}`;
 
-const FloatingCTA = () => (
-  <div className="fixed bottom-6 right-6 flex flex-col gap-4 z-[100]">
-    <motion.a
-      href={`tel:+${CONTACT_NUMBER}`}
-      initial={{ scale: 0, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      whileHover={{ scale: 1.1 }}
-      className="bg-white text-emerald-950 p-4 rounded-full shadow-2xl border border-emerald-100 flex items-center justify-center"
-    >
-      <Phone size={24} />
-    </motion.a>
-    <motion.a
-      href={WHATSAPP_URL}
-      target="_blank"
-      initial={{ scale: 0, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      transition={{ delay: 0.1 }}
-      whileHover={{ scale: 1.1 }}
-      className="bg-green-500 text-white p-4 rounded-full shadow-2xl flex items-center justify-center"
-    >
-      <MessageCircle size={24} />
-    </motion.a>
-  </div>
-);
+const FloatingCTA = () => {
+  // Ensure these constants are defined in your file or passed as props
+  const CONTACT_NUMBER = "918296962786";
+  const WHATSAPP_URL = `https://wa.me/${CONTACT_NUMBER}?text=${encodeURIComponent(
+    "Hello Sunday the Spa, I would like to book a session."
+  )}`;
+
+  return (
+    <div className="fixed bottom-6 right-6 flex flex-col gap-4 z-[100]">
+      {/* Call Button */}
+      <motion.a
+        href={`tel:+${CONTACT_NUMBER}`}
+        initial={{ scale: 0, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        whileHover={{ scale: 1.1 }}
+        className="bg-white text-emerald-950 p-4 rounded-full shadow-2xl border border-emerald-100 flex items-center justify-center"
+      >
+        <Phone size={24} />
+      </motion.a>
+
+      {/* Real WhatsApp Button */}
+      <motion.a
+        href={WHATSAPP_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        initial={{ scale: 0, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ delay: 0.1 }}
+        whileHover={{ scale: 1.1 }}
+        className="bg-[#25D366] text-white p-4 rounded-full shadow-2xl flex items-center justify-center"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          width="24"
+          height="24"
+          fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.414 0 .018 5.393 0 12.03c0 2.123.554 4.197 1.606 6.023L0 24l6.117-1.605a11.803 11.803 0 005.925 1.586h.005c6.631 0 12.026-5.391 12.03-12.024a11.812 11.812 0 00-3.517-8.482z" />
+        </svg>
+      </motion.a>
+    </div>
+  );
+};
 
 // --- Sophisticated Background Elements ---
 const AmbientBackground = () => (
@@ -103,12 +123,10 @@ const SectionHeading = ({ sub, title, description, align = "center" }: any) => (
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
 
-  // New: H.S.R Layout WhatsApp Details
-  const phoneNumber = "918296962786"; // Formatted for WhatsApp (no + or spaces)
+  // Updated details for calling
+  const phoneNumber = "918296962786";
   const displayPhone = "+91 82969 62786";
-  const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
-    "Hello Sunday the Spa, I would like to book a session."
-  )}`;
+  const callUrl = `tel:+${phoneNumber}`;
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -162,15 +180,13 @@ const Navbar = () => {
               {displayPhone}
             </span>
 
-            {/* WhatsApp Link Button */}
+            {/* Call Us Button */}
             <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-emerald-950 text-amber-200 cursor-pointer px-8 py-3 rounded-full text-[14px] flex items-center gap-2 hover:bg-emerald-800 transition-all shadow-xl shadow-emerald-950/10"
+              href={callUrl}
+              className="bg-emerald-950 text-amber-200 cursor-pointer px-8 py-3 rounded-full text-[12px] uppercase font-bold tracking-widest flex items-center gap-2 hover:bg-emerald-800 transition-all shadow-xl shadow-emerald-950/10"
             >
-              <MessageCircle size={16} />
-              Book via WhatsApp
+              <Phone size={14} />
+              Call Us
             </a>
           </div>
         </div>
@@ -210,19 +226,26 @@ const Hero = () => {
             The Art of <br />
             <span className="italic font-light text-amber-100">Stillness</span>
           </h1>
+
           <div className="flex flex-col md:flex-row items-center justify-center gap-8 mt-12">
+            {/* Primary CTA */}
             <button className="group relative px-10 py-5 bg-amber-400 text-emerald-950 font-bold rounded-full overflow-hidden transition-all">
               <span className="relative z-10">Book a treatment</span>
               <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
             </button>
-            <button className="flex items-center gap-4 text-white group">
-              <div className="w-14 h-14 rounded-full border border-white/30 flex items-center justify-center group-hover:bg-white/10 transition">
-                <PlayCircle strokeWidth={1} />
+
+            {/* Call Now Action */}
+            <a
+              href="tel:+918296962786"
+              className="flex items-center gap-4 text-white group transition-colors"
+            >
+              <div className="w-14 h-14 rounded-full border border-white/30 flex items-center justify-center group-hover:bg-amber-400 group-hover:border-amber-400 group-hover:text-emerald-950 transition-all duration-300">
+                <Phone size={20} strokeWidth={1.5} />
               </div>
               <span className="text-sm font-bold tracking-widest uppercase">
-                The Experience
+                Call Now
               </span>
-            </button>
+            </a>
           </div>
         </motion.div>
       </div>
@@ -1244,6 +1267,106 @@ const LocationSection = () => {
   );
 };
 
+// --- Instagram Reels Section ---
+// --- Instagram Grid Component ---
+const InstagramReelsGrid = () => {
+  const reels = [
+    {
+      id: 1,
+      thumbnail:
+        "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=800",
+      views: "12.4k",
+      link: "https://www.instagram.com/reels/...",
+    },
+    {
+      id: 2,
+      thumbnail:
+        "https://images.unsplash.com/photo-1600334129128-685c5582fd35?q=80&w=800",
+      views: "8.9k",
+      link: "https://www.instagram.com/reels/...",
+    },
+    {
+      id: 3,
+      thumbnail:
+        "https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=800",
+      views: "15.1k",
+      link: "https://www.instagram.com/reels/...",
+    },
+    {
+      id: 4,
+      thumbnail:
+        "https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=800",
+      views: "10.2k",
+      link: "https://www.instagram.com/reels/...",
+    },
+  ];
+
+  return (
+    <section className="py-32 bg-[#fdfcfb]">
+      <div className="container mx-auto px-6">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+          <SectionHeading
+            align="left"
+            sub="On Instagram"
+            title="The Social Journal"
+            description="Moments of stillness captured at our H.S.R Layout sanctuary."
+          />
+          <a
+            href="https://instagram.com"
+            target="_blank"
+            className="mb-10 px-6 py-2 border border-emerald-900/10 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-emerald-950 hover:text-white transition-all"
+          >
+            Follow @sundaythespa
+          </a>
+        </div>
+
+        {/* The Instagram-Style Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-1 md:gap-4 max-w-6xl mx-auto">
+          {reels.map((reel) => (
+            <motion.a
+              key={reel.id}
+              href={reel.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ opacity: 0.9 }}
+              className="relative aspect-[9/16] bg-stone-200 overflow-hidden group"
+            >
+              {/* Thumbnail Image */}
+              <img
+                src={reel.thumbnail}
+                alt="Sunday Spa Reel"
+                className="w-full h-full object-cover"
+              />
+
+              {/* Top Right: The Instagram Reels Icon */}
+              <div className="absolute top-3 right-3 text-white drop-shadow-md">
+                <svg
+                  viewBox="0 0 24 24"
+                  width="20"
+                  height="20"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                  <path d="M10 9l5 3-5 3V9z" />
+                </svg>
+              </div>
+
+              {/* Bottom Left: Simulated View Count (Real IG Look) */}
+
+              {/* Hover Overlay */}
+              <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            </motion.a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
 export default function Home() {
   const [trackingData, setTrackingData] = useState({
     gclid: "",
@@ -1290,6 +1413,7 @@ export default function Home() {
       <div className="relative z-10 bg-[#fdfcfb]">
         <Philosophy />
         <Services />
+        <InstagramReelsGrid />
         {/* <SignatureRituals /> */}
         <Memberships />
         <Testimonials />
