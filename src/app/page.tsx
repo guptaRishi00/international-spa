@@ -30,7 +30,7 @@ import {
 const CONTACT_NUMBER = "918296962786";
 const DISPLAY_PHONE = "+91 82969 62786";
 const WHATSAPP_MESSAGE = encodeURIComponent(
-  "Hello Sunday the Spa, I would like to book a session."
+  "Hello Sunday the Spa, I would like to book a session.",
 );
 const WHATSAPP_URL = `https://wa.me/${CONTACT_NUMBER}?text=${WHATSAPP_MESSAGE}`;
 
@@ -38,7 +38,7 @@ const FloatingCTA = () => {
   // Ensure these constants are defined in your file or passed as props
   const CONTACT_NUMBER = "918296962786";
   const WHATSAPP_URL = `https://wa.me/${CONTACT_NUMBER}?text=${encodeURIComponent(
-    "Hello Sunday the Spa, I would like to book a session."
+    "Hello Sunday the Spa, I would like to book a session.",
   )}`;
 
   return (
@@ -307,32 +307,32 @@ const Services = () => (
 
       <div className="grid md:grid-cols-3 gap-12">
         <ExperienceCard
-          title="Swedish Essence"
+          title="Sukoon (Swedish Massage)"
           category="Relaxation"
-          price="1,800" // Updated price
+          price="1,799" // Updated price
           image="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=800"
           delay={0.1}
         />
         <ExperienceCard
-          title="Royal Thai Stretch"
-          category="Flexibility"
-          price="2,199"
-          image="https://images.unsplash.com/photo-1600334129128-685c5582fd35?q=80&w=800"
-          delay={0.1}
-        />
-        <ExperienceCard
-          title="Ethereal Aromatherapy"
+          title="Fiza (Aromatherapy)"
           category="Relaxation"
-          price="2,499"
+          price="2,700" // Updated price
           image="https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=800"
           delay={0.2}
         />
         <ExperienceCard
-          title="Deep Tissue Release"
+          title="Rooh (Deep Tissue Massage)"
           category="Recovery"
-          price="2,899"
-          image="https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=800"
+          price="2,800" // Updated price [cite: 176]
+          image="https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=800"
           delay={0.3}
+        />
+        <ExperienceCard
+          title="Sifar (Thai Yoga Massage)"
+          category="Flexibility"
+          price="3,200" // Updated price [cite: 180]
+          image="https://images.unsplash.com/photo-1600334129128-685c5582fd35?q=80&w=800"
+          delay={0.4}
         />
       </div>
     </div>
@@ -343,7 +343,7 @@ const Footer = () => {
   const phoneNumber = "918296962786";
   const displayPhone = "+91 82969 62786";
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
-    "Hello Sunday the Spa, I would like to book a session."
+    "Hello Sunday the Spa, I would like to book a session.",
   )}`;
 
   return (
@@ -624,7 +624,7 @@ const Testimonials = () => {
   const prevStep = () => {
     setDirection(-1);
     setIndex(
-      (prev) => (prev - 1 + testimonialsData.length) % testimonialsData.length
+      (prev) => (prev - 1 + testimonialsData.length) % testimonialsData.length,
     );
   };
 
@@ -741,19 +741,19 @@ const BookingSection = ({ tracking }: { tracking: any }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
+  // Updated details for display
+  const DISPLAY_PHONE = "+91 82969 62786";
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // PASTE YOUR GOOGLE WEB APP URL HERE
     const scriptURL =
       "https://script.google.com/macros/s/AKfycbwauNJApMDduZWEBzATK2WWRgfkWFK3kedFlYdY3NhKtSmNOdeiR2NHQDHlBY3Y0ORxWw/exec";
     const form = e.currentTarget;
     const formData = new FormData(form);
 
     try {
-      // Using 'no-cors' mode is often necessary with Google Apps Script
-      // to avoid CORS errors, though it won't let you read the response body.
       await fetch(scriptURL, {
         method: "POST",
         body: formData,
@@ -763,12 +763,11 @@ const BookingSection = ({ tracking }: { tracking: any }) => {
       setIsSuccess(true);
       form.reset();
 
-      // Optional: Reset success message after 10 seconds to allow new bookings
       setTimeout(() => setIsSuccess(false), 10000);
     } catch (error) {
       console.error("Submission Error:", error);
       alert(
-        "There was an issue sending your inquiry. Please contact us via WhatsApp or Phone directly."
+        "There was an issue sending your inquiry. Please contact us via WhatsApp or Phone directly.",
       );
     } finally {
       setIsSubmitting(false);
@@ -843,7 +842,15 @@ const BookingSection = ({ tracking }: { tracking: any }) => {
                   className="space-y-8"
                   onSubmit={handleSubmit}
                 >
-                  {/* --- Hidden Tracking Fields --- */}
+                  {/* Updated Form Header */}
+                  <div className="mb-4">
+                    <h3 className="text-3xl font-serif text-emerald-950">
+                      Book Massage Starting at ₹1,799
+                    </h3>
+                    <div className="h-[1px] w-12 bg-amber-400/50 mt-3" />
+                  </div>
+
+                  {/* Hidden Tracking Fields */}
                   <input type="hidden" name="gclid" value={tracking.gclid} />
                   <input
                     type="hidden"
@@ -936,21 +943,37 @@ const BookingSection = ({ tracking }: { tracking: any }) => {
                       className="w-full border-b border-stone-200 py-3 focus:border-amber-500 outline-none transition bg-transparent text-emerald-950 cursor-pointer"
                     >
                       <option value="">Select an experience</option>
-                      <option value="Swedish Essence (₹1800)">
-                        Swedish Essence (₹1800)
-                      </option>
-                      <option value="Royal Thai Stretch (₹2199)">
-                        Royal Thai Stretch (₹2199)
-                      </option>
-                      <option value="Ethereal Aromatherapy (₹2499)">
-                        Ethereal Aromatherapy (₹2499)
-                      </option>
-                      <option value="Deep Tissue Release (₹2899)">
-                        Deep Tissue Release (₹2899)
-                      </option>
-                      <option value="Koramangala Escape Package">
-                        Koramangala Escape Package
-                      </option>
+                      <optgroup label="Standard Services">
+                        <option value="Sukoon Swedish (₹1799)">
+                          Sukoon Swedish (₹1799)
+                        </option>
+                        <option value="Fiza Aromatherapy (₹2700)">
+                          Fiza Aromatherapy (₹2700)
+                        </option>
+                        <option value="Mukammal Balinese (₹2800)">
+                          Mukammal Balinese (₹2800)
+                        </option>
+                        <option value="Rooh Deep Tissue (₹2800)">
+                          Rooh Deep Tissue (₹2800)
+                        </option>
+                        <option value="Sifar Thai Yoga (₹3200)">
+                          Sifar Thai Yoga (₹3200)
+                        </option>
+                      </optgroup>
+                      <optgroup label="Premium KAMA Ayurveda">
+                        <option value="KAMA Sukoon Swedish (₹3000)">
+                          KAMA Sukoon Swedish (₹3000)
+                        </option>
+                        <option value="KAMA Rooh Deep Tissue (₹3000)">
+                          KAMA Rooh Deep Tissue (₹3000)
+                        </option>
+                        <option value="KAMA Mukammal Balinese (₹3000)">
+                          KAMA Mukammal Balinese (₹3000)
+                        </option>
+                        <option value="KAMA Fiza Aromatherapy (₹3200)">
+                          KAMA Fiza Aromatherapy (₹3200)
+                        </option>
+                      </optgroup>
                     </select>
                   </div>
 
@@ -987,7 +1010,6 @@ const BookingSection = ({ tracking }: { tracking: any }) => {
     </section>
   );
 };
-
 // --- Brands Carousel Section ---
 const Brands = () => {
   const brandLogos = [
@@ -1201,7 +1223,7 @@ const LocationSection = () => {
   const mapAddress =
     "Sunday the Spa, No. 14, 13th Cross, 9th Main Road, Sector 6, H.S.R Layout, Bengaluru";
   const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
-    mapAddress
+    mapAddress,
   )}`;
 
   return (
@@ -1270,34 +1292,37 @@ const LocationSection = () => {
 // --- Instagram Reels Section ---
 // --- Instagram Grid Component ---
 const InstagramReelsGrid = () => {
+  // 1. State to track which reel is currently playing
+  const [playingId, setPlayingId] = useState<any>(null);
+
   const reels = [
     {
       id: 1,
       thumbnail:
         "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=800",
       views: "12.4k",
-      link: "https://www.instagram.com/reels/...",
+      link: "/one.mp4",
     },
     {
       id: 2,
       thumbnail:
         "https://images.unsplash.com/photo-1600334129128-685c5582fd35?q=80&w=800",
       views: "8.9k",
-      link: "https://www.instagram.com/reels/...",
+      link: "/two.mp4",
     },
     {
       id: 3,
       thumbnail:
         "https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=800",
       views: "15.1k",
-      link: "https://www.instagram.com/reels/...",
+      link: "/three.mp4",
     },
     {
       id: 4,
       thumbnail:
         "https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=800",
       views: "10.2k",
-      link: "https://www.instagram.com/reels/...",
+      link: "/four.mp4",
     },
   ];
 
@@ -1305,61 +1330,89 @@ const InstagramReelsGrid = () => {
     <section className="py-32 bg-[#fdfcfb]">
       <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
-          <SectionHeading
-            align="left"
-            sub="On Instagram"
-            title="The Social Journal"
-            description="Moments of stillness captured at our H.S.R Layout sanctuary."
-          />
+          <div>
+            <p className="text-emerald-800 font-bold uppercase tracking-widest text-xs mb-2">
+              On Instagram
+            </p>
+            <h2 className="text-4xl font-serif text-stone-900">
+              The Social Journal
+            </h2>
+            <p className="text-stone-600 mt-4">
+              Moments of stillness captured at our H.S.R Layout sanctuary.
+            </p>
+          </div>
           <a
             href="https://instagram.com"
             target="_blank"
+            rel="noreferrer"
             className="mb-10 px-6 py-2 border border-emerald-900/10 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-emerald-950 hover:text-white transition-all"
           >
             Follow @sundaythespa
           </a>
         </div>
 
-        {/* The Instagram-Style Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-1 md:gap-4 max-w-6xl mx-auto">
           {reels.map((reel) => (
-            <motion.a
+            <motion.div
               key={reel.id}
-              href={reel.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ opacity: 0.9 }}
-              className="relative aspect-[9/16] bg-stone-200 overflow-hidden group"
+              onClick={() => setPlayingId(reel.id)} // 2. Set active ID on click
+              className="relative aspect-[9/16] bg-stone-200 overflow-hidden group cursor-pointer"
+              whileHover={{ scale: 0.98 }}
             >
-              {/* Thumbnail Image */}
-              <img
-                src={reel.thumbnail}
-                alt="Sunday Spa Reel"
-                className="w-full h-full object-cover"
-              />
+              {playingId === reel.id ? (
+                // 3. Show Video if this ID is playing
+                <video
+                  src={reel.link}
+                  className="absolute inset-0 w-full h-full object-cover"
+                  autoPlay
+                  loop
+                  playsInline
+                  controls={false}
+                />
+              ) : (
+                // 4. Show Thumbnail and UI if not playing
+                <>
+                  <img
+                    src={reel.thumbnail}
+                    alt="Reel thumbnail"
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
 
-              {/* Top Right: The Instagram Reels Icon */}
-              <div className="absolute top-3 right-3 text-white drop-shadow-md">
-                <svg
-                  viewBox="0 0 24 24"
-                  width="20"
-                  height="20"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-                  <path d="M10 9l5 3-5 3V9z" />
-                </svg>
-              </div>
+                  {/* Top Right: Reels Icon */}
+                  <div className="absolute top-3 right-3 text-white drop-shadow-md z-10">
+                    <svg
+                      viewBox="0 0 24 24"
+                      width="20"
+                      height="20"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                      <path d="M10 9l5 3-5 3V9z" />
+                    </svg>
+                  </div>
 
-              {/* Bottom Left: Simulated View Count (Real IG Look) */}
+                  {/* Bottom Left: Views */}
+                  <div className="absolute bottom-3 left-3 text-white text-xs font-bold flex items-center gap-1 drop-shadow-md z-10">
+                    <svg
+                      viewBox="0 0 24 24"
+                      width="14"
+                      height="14"
+                      fill="currentColor"
+                    >
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                    {reel.views}
+                  </div>
 
-              {/* Hover Overlay */}
-              <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            </motion.a>
+                  {/* Hover Overlay */}
+                  <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                </>
+              )}
+            </motion.div>
           ))}
         </div>
       </div>
