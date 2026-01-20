@@ -736,12 +736,13 @@ const Services = () => {
   );
 };
 
+// src/app/page.tsx
+
 const Footer = () => {
   const phoneNumber = "918296962786";
   const displayPhone = "+91 82969 62786";
-  const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
-    "Hello Sunday the Spa, I would like to book a session.",
-  )}`;
+  // Create a call URL using the tel: protocol
+  const callUrl = `tel:+${phoneNumber}`;
 
   return (
     <footer className="bg-emerald-950 text-stone-300 py-24">
@@ -752,15 +753,13 @@ const Footer = () => {
               Ready to begin your journey to serenity?
             </h2>
             <div className="flex flex-wrap gap-4">
-              {/* Primary WhatsApp Action */}
+              {/* Primary Call Action */}
               <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+                href={callUrl}
                 className="bg-amber-400 text-emerald-950 px-8 py-4 rounded-full font-bold text-sm hover:bg-white transition-colors flex items-center gap-2"
               >
-                <MessageCircle size={18} />
-                Book via WhatsApp
+                <Phone size={18} />
+                Call to Book
               </a>
               <div className="flex gap-2">
                 <button className="p-4 border border-white/20 rounded-full hover:bg-white/5 transition">
@@ -792,19 +791,14 @@ const Footer = () => {
             <h4 className="text-white text-xs font-bold uppercase tracking-[0.2em] mb-6">
               Contact Us
             </h4>
-            {/* Clickable Phone Number */}
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group block"
-            >
+            {/* Updated Clickable Phone Number to redirect to call */}
+            <a href={callUrl} className="group block">
               <p className="text-lg text-amber-200 mb-2 group-hover:text-white transition-colors">
                 {displayPhone}
               </p>
               <p className="text-[10px] text-amber-200/50 uppercase tracking-widest flex items-center gap-2">
                 <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
-                Available on WhatsApp
+                Available for Calls
               </p>
             </a>
             <p className="text-sm opacity-70 underline cursor-pointer hover:text-white transition lowercase mt-6">
