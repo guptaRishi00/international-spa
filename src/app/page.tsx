@@ -89,7 +89,14 @@ const AmbientBackground = () => (
 );
 
 // --- Refined Section Heading ---
-const SectionHeading = ({ sub, title, description, align = "center" }: any) => (
+// Update this component in your src/app/page.tsx
+const SectionHeading = ({
+  sub,
+  title,
+  description,
+  align = "center",
+  isLight = false,
+}: any) => (
   <div
     className={`mb-20 ${
       align === "center" ? "text-center" : "text-left"
@@ -98,19 +105,23 @@ const SectionHeading = ({ sub, title, description, align = "center" }: any) => (
     <motion.span
       initial={{ opacity: 0, letterSpacing: "0.1em" }}
       whileInView={{ opacity: 1, letterSpacing: "0.3em" }}
-      className="text-emerald-800 font-semibold uppercase text-[10px] mb-4 block"
+      className={`${isLight ? "text-amber-200" : "text-emerald-800"} font-semibold uppercase text-[10px] mb-4 block`}
     >
       {sub}
     </motion.span>
     <motion.h2
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
-      className="text-5xl md:text-6xl font-serif text-emerald-950 mb-6 leading-[1.1]"
+      className={`text-5xl md:text-6xl font-serif ${isLight ? "text-white" : "text-emerald-950"} mb-6 leading-[1.1]`}
     >
       {title}
     </motion.h2>
     {description && (
-      <p className="text-stone-500 font-light text-lg italic">{description}</p>
+      <p
+        className={`${isLight ? "text-stone-300" : "text-stone-500"} font-light text-lg italic`}
+      >
+        {description}
+      </p>
     )}
     <div
       className={`h-[1px] w-24 bg-amber-400/50 mt-8 ${
@@ -172,13 +183,6 @@ const Navbar = () => {
 
           <div className="hidden md:flex items-center gap-12">
             {/* Number Display */}
-            <span
-              className={`text-[11px] font-bold tracking-widest ${
-                scrolled ? "text-emerald-950/60" : "text-white/60"
-              }`}
-            >
-              {displayPhone}
-            </span>
 
             {/* Call Us Button */}
             <a
@@ -195,7 +199,184 @@ const Navbar = () => {
   );
 };
 
-const Hero = () => {
+const BookingPopup = ({
+  isOpen,
+  onClose,
+  tracking,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  tracking: any;
+}) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    const scriptURL =
+      "https://script.google.com/macros/s/AKfycbwauNJApMDduZWEBzATK2WWRgfkWFK3kedFlYdY3NhKtSmNOdeiR2NHQDHlBY3Y0ORxWw/exec";
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    try {
+      await fetch(scriptURL, {
+        method: "POST",
+        body: formData,
+        mode: "no-cors",
+      });
+      setIsSuccess(true);
+      form.reset();
+      setTimeout(() => {
+        setIsSuccess(false);
+        onClose();
+      }, 3000);
+    } catch (error) {
+      console.error("Submission Error:", error);
+      alert(
+        "There was an issue sending your inquiry. Please contact us via WhatsApp directly.",
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-[300] flex items-center justify-center p-4">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="absolute inset-0 bg-emerald-950/80 backdrop-blur-md"
+          />
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.9, opacity: 0, y: 20 }}
+            className="relative w-full max-w-2xl bg-white rounded-[2rem] overflow-hidden shadow-2xl p-8 md:p-12 max-h-[90vh] overflow-y-auto"
+          >
+            <button
+              onClick={onClose}
+              className="absolute top-6 right-6 text-stone-400 hover:text-emerald-950 transition-colors"
+            >
+              <X size={24} />
+            </button>
+
+            {isSuccess ? (
+              <div className="text-center py-12 space-y-6">
+                <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto text-emerald-600">
+                  <CheckCircle2 size={40} />
+                </div>
+                <h3 className="text-3xl font-serif text-emerald-950">
+                  Booking Request Received
+                </h3>
+                <p className="text-stone-500">
+                  Our concierge will reach out to you within 15 minutes.
+                </p>
+              </div>
+            ) : (
+              <form className="space-y-8" onSubmit={handleSubmit}>
+                <div>
+                  <h3 className="text-3xl font-serif text-emerald-950">
+                    Reserve Your Session
+                  </h3>
+                  <p className="text-stone-500 mt-2 italic">
+                    Standard rituals starting at ₹1,799
+                  </p>
+                </div>
+
+                {/* Hidden Tracking Fields */}
+                <input type="hidden" name="gclid" value={tracking.gclid} />
+                <input
+                  type="hidden"
+                  name="utm_source"
+                  value={tracking.utm_source}
+                />
+                <input
+                  type="hidden"
+                  name="utm_medium"
+                  value={tracking.utm_medium}
+                />
+                <input
+                  type="hidden"
+                  name="utm_campaign"
+                  value={tracking.utm_campaign}
+                />
+
+                <div className="grid md:grid-cols-2 gap-8">
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
+                      Full Name
+                    </label>
+                    <input
+                      name="name"
+                      type="text"
+                      required
+                      className="w-full border-b border-stone-200 py-3 focus:border-amber-500 outline-none text-emerald-950"
+                      placeholder="Your Name"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
+                      Phone Number
+                    </label>
+                    <input
+                      name="phone"
+                      type="tel"
+                      required
+                      className="w-full border-b border-stone-200 py-3 focus:border-amber-500 outline-none text-emerald-950"
+                      placeholder="+91"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
+                    Select Ritual
+                  </label>
+                  <select
+                    name="ritual"
+                    required
+                    className="w-full border-b border-stone-200 py-3 focus:border-amber-500 outline-none text-emerald-950 bg-transparent"
+                  >
+                    <option value="">Select an experience</option>
+                    <option value="Sukoon Swedish (₹1799)">
+                      Sukoon Swedish (₹1799)
+                    </option>
+                    <option value="Fiza Aromatherapy (₹2700)">
+                      Fiza Aromatherapy (₹2700)
+                    </option>
+                    <option value="Rooh Deep Tissue (₹2800)">
+                      Rooh Deep Tissue (₹2800)
+                    </option>
+                    <option value="Sifar Thai Yoga (₹3200)">
+                      Sifar Thai Yoga (₹3200)
+                    </option>
+                  </select>
+                </div>
+
+                <button
+                  disabled={isSubmitting}
+                  type="submit"
+                  className="w-full bg-emerald-950 text-amber-200 font-bold py-5 rounded-full shadow-xl hover:bg-emerald-900 transition flex items-center justify-center gap-3"
+                >
+                  {isSubmitting ? "Processing Request..." : "Confirm Booking"}{" "}
+                  <ArrowRight size={18} />
+                </button>
+              </form>
+            )}
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
+  );
+};
+
+const Hero = ({ onBookClick }: { onBookClick: () => void }) => {
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 500], [0, 200]);
 
@@ -205,10 +386,11 @@ const Hero = () => {
       className="relative h-[110vh] flex items-center justify-center overflow-hidden bg-emerald-950"
     >
       <motion.div style={{ y: y1 }} className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-b from-emerald-950/60 via-transparent to-emerald-950 z-10" />
+        {/* Increased overlay darkness to 80% to make white text stand out */}
+        <div className="absolute inset-0 bg-emerald-950/80 z-10" />
         <img
           src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=2070"
-          className="w-full h-full object-cover scale-110 opacity-70"
+          className="w-full h-full object-cover scale-110 opacity-40" // Reduced image opacity from 70 to 40
           alt="Luxury Spa"
         />
       </motion.div>
@@ -220,30 +402,33 @@ const Hero = () => {
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
         >
           <span className="text-amber-200 text-xs font-bold tracking-[0.4em] uppercase mb-6 block">
-            Koramangala's Premier Sanctuary
+            5000+ Happy Clients
           </span>
-          <h1 className="text-6xl md:text-9xl font-serif text-white mb-8 leading-tight">
-            The Art of <br />
-            <span className="italic font-light text-amber-100">Stillness</span>
+          <h1 className="text-5xl md:text-8xl font-serif text-white mb-8 leading-tight">
+            Premium Spa & Massage <br />
+            <span className="italic font-light text-amber-100 text-4xl md:text-7xl block mt-4">
+              Starting at ₹1799
+            </span>
           </h1>
 
           <div className="flex flex-col md:flex-row items-center justify-center gap-8 mt-12">
-            {/* Primary CTA */}
-            <button className="group relative px-10 py-5 bg-amber-400 text-emerald-950 font-bold rounded-full overflow-hidden transition-all">
+            <button
+              onClick={onBookClick}
+              className="group relative px-10 py-5 bg-amber-400 text-emerald-950 font-bold rounded-full overflow-hidden transition-all"
+            >
               <span className="relative z-10">Book a treatment</span>
               <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
             </button>
 
-            {/* Call Now Action */}
             <a
-              href="tel:+918296962786"
+              href={`tel:+${CONTACT_NUMBER}`}
               className="flex items-center gap-4 text-white group transition-colors"
             >
               <div className="w-14 h-14 rounded-full border border-white/30 flex items-center justify-center group-hover:bg-amber-400 group-hover:border-amber-400 group-hover:text-emerald-950 transition-all duration-300">
                 <Phone size={20} strokeWidth={1.5} />
               </div>
               <span className="text-sm font-bold tracking-widest uppercase">
-                Call Now
+                Call Us
               </span>
             </a>
           </div>
@@ -290,54 +475,207 @@ const ExperienceCard = ({ title, category, price, image, delay }: any) => (
   </motion.div>
 );
 
-const Services = () => (
-  <section id="services" className="py-32 relative">
-    <div className="container mx-auto px-6">
-      <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
-        <SectionHeading
-          align="left"
-          sub="Curated Therapies"
-          title="Elevate Your Well-being"
-          description="A collection of rituals designed to balance the mind and restore the body's natural rhythm."
+const ServiceCard = ({
+  title,
+  category,
+  price,
+  duration,
+  description,
+  image,
+  delay,
+}: any) => {
+  const whatsappUrl = `https://wa.me/918296962786?text=${encodeURIComponent(
+    `Hello Sunday the Spa, I would like to book a ${title} session.`,
+  )}`;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ delay, duration: 0.8 }}
+      className="group bg-white rounded-3xl overflow-hidden shadow-sm border border-stone-100 flex flex-col h-full hover:shadow-xl hover:shadow-emerald-900/5 transition-all duration-500"
+    >
+      {/* 1. Image */}
+      <div className="relative aspect-video overflow-hidden">
+        <img
+          src={image}
+          alt={title}
+          className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110"
         />
-        <button className="mb-12 border-b border-emerald-900/20 pb-2 text-sm font-bold text-emerald-900 hover:text-amber-600 transition">
-          View Menu
-        </button>
+        <div className="absolute top-4 left-4 bg-emerald-950/80 backdrop-blur-md text-amber-200 text-[9px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">
+          {category}
+        </div>
       </div>
 
-      <div className="grid md:grid-cols-3 gap-12">
-        <ExperienceCard
-          title="Sukoon (Swedish Massage)"
-          category="Relaxation"
-          price="1,799" // Updated price
-          image="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=800"
-          delay={0.1}
-        />
-        <ExperienceCard
-          title="Fiza (Aromatherapy)"
-          category="Relaxation"
-          price="2,700" // Updated price
-          image="https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=800"
-          delay={0.2}
-        />
-        <ExperienceCard
-          title="Rooh (Deep Tissue Massage)"
-          category="Recovery"
-          price="2,800" // Updated price [cite: 176]
-          image="https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=800"
-          delay={0.3}
-        />
-        <ExperienceCard
-          title="Sifar (Thai Yoga Massage)"
-          category="Flexibility"
-          price="3,200" // Updated price [cite: 180]
-          image="https://images.unsplash.com/photo-1600334129128-685c5582fd35?q=80&w=800"
-          delay={0.4}
-        />
+      {/* 2. Details */}
+      <div className="p-8 flex flex-col flex-grow">
+        <div className="flex justify-between items-start mb-4">
+          <h3 className="text-2xl font-serif text-emerald-950 leading-tight flex-grow pr-4">
+            {title}
+          </h3>
+          <div className="text-right">
+            <p className="text-emerald-900 font-bold text-lg">₹{price}</p>
+            <p className="text-[10px] text-stone-400 uppercase font-bold tracking-tighter">
+              {duration}
+            </p>
+          </div>
+        </div>
+
+        <p className="text-stone-500 font-light text-sm leading-relaxed mb-8 flex-grow">
+          {description}
+        </p>
+
+        {/* 3. Book Now Button (WhatsApp Redirect) */}
+        <a
+          href={whatsappUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-full bg-emerald-950 text-amber-200 text-center py-4 rounded-2xl text-xs font-bold uppercase tracking-widest hover:bg-emerald-800 transition-all flex items-center justify-center gap-2 group/btn"
+        >
+          <MessageCircle
+            size={16}
+            className="group-hover/btn:scale-110 transition-transform"
+          />
+          Book Now
+        </a>
       </div>
-    </div>
-  </section>
-);
+    </motion.div>
+  );
+};
+
+const Services = () => {
+  const standardServices = [
+    {
+      title: "Sukoon (Swedish Massage)",
+      category: "Standard",
+      duration: "45m / 1h / 1.5h",
+      price: "1,800",
+      description:
+        "A relaxing Swedish massage designed to release muscle tension and promote overall relaxation.",
+      image:
+        "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=800",
+    },
+    {
+      title: "Fiza (Aromatherapy)",
+      category: "Standard",
+      duration: "1h / 1.5h",
+      price: "2,700",
+      description:
+        "A soothing massage using essential oils to calm the mind and reduce stress levels.",
+      image:
+        "https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=800",
+    },
+    {
+      title: "Mukammal (Balinese Massage)",
+      category: "Standard",
+      duration: "1h / 1.5h",
+      price: "2,800",
+      description:
+        "A deep, rhythmic Balinese massage that improves circulation and relieves body fatigue.",
+      image:
+        "https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=800",
+    },
+    {
+      title: "Rooh (Deep Tissue Massage)",
+      category: "Standard",
+      duration: "1h / 1.5h",
+      price: "2,800",
+      description:
+        "A targeted deep tissue massage focused on relieving chronic muscle pain and stiffness.",
+      image:
+        "https://images.unsplash.com/photo-1600334129128-685c5582fd35?q=80&w=800",
+    },
+    {
+      title: "Sifar (Thai Yoga Massage)",
+      category: "Standard",
+      duration: "1h / 1.5h",
+      price: "3,200",
+      description:
+        "Traditional Thai yoga massage combining assisted stretches and energy flow techniques.",
+      image:
+        "https://images.unsplash.com/photo-1519823551278-64ac92734fb1?q=80&w=800",
+    },
+  ];
+
+  const premiumServices = [
+    {
+      title: "KAMA Sukoon (Swedish)",
+      category: "Premium KAMA",
+      duration: "1h / 1.5h",
+      price: "3,000",
+      description:
+        "Premium Swedish massage using KAMA Ayurveda's signature therapeutic oils.",
+      image:
+        "https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=800",
+    },
+    {
+      title: "KAMA Rooh (Deep Tissue)",
+      category: "Premium KAMA",
+      duration: "1h / 1.5h",
+      price: "3,000",
+      description:
+        "Intensive muscle recovery treatment utilizing high-potency KAMA Ayurvedic extracts.",
+      image:
+        "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=800",
+    },
+    {
+      title: "KAMA Mukammal (Balinese)",
+      category: "Premium KAMA",
+      duration: "1h / 1.5h",
+      price: "3,000",
+      description:
+        "Rhythmic Balinese ritual enhanced by the healing power of KAMA Ayurveda botanicals.",
+      image:
+        "https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=800",
+    },
+    {
+      title: "KAMA Fiza (Aromatherapy)",
+      category: "Premium KAMA",
+      duration: "1h / 1.5h",
+      price: "3,200",
+      description:
+        "Luxury aromatherapy session with rare essential oil blends from KAMA Ayurveda.",
+      image:
+        "https://images.unsplash.com/photo-1600334129128-685c5582fd35?q=80&w=800",
+    },
+  ];
+
+  return (
+    <section id="services" className="py-32 relative">
+      <div className="container mx-auto px-6">
+        {/* Section 1: Standard Services */}
+        <div className="mb-24">
+          <SectionHeading
+            align="left"
+            sub="Essential Rituals"
+            title="Massage & Therapy Services (Standard)"
+            description="Our foundational treatments designed to balance the mind and restore the body."
+          />
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {standardServices.map((service, i) => (
+              <ServiceCard key={service.title} {...service} delay={i * 0.1} />
+            ))}
+          </div>
+        </div>
+
+        {/* Section 2: Premium KAMA Services */}
+        <div className="pt-24 border-t border-stone-100">
+          <SectionHeading
+            align="left"
+            sub="Luxury Ayurveda"
+            title="KAMA Ayurveda Body Treatments (Premium)"
+            description="Elevated experiences using world-class botanical products for deep healing."
+          />
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {premiumServices.map((service, i) => (
+              <ServiceCard key={service.title} {...service} delay={i * 0.1} />
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
 
 const Footer = () => {
   const phoneNumber = "918296962786";
@@ -459,6 +797,7 @@ const Philosophy = () => {
               align="left"
               sub="Our Philosophy"
               title="A Sanctuary for the Five Senses"
+              isLight={true} // This fixes the title color to white
             />
 
             <div className="grid gap-8">
@@ -1292,7 +1631,6 @@ const LocationSection = () => {
 // --- Instagram Reels Section ---
 // --- Instagram Grid Component ---
 const InstagramReelsGrid = () => {
-  // 1. State to track which reel is currently playing
   const [playingId, setPlayingId] = useState<any>(null);
 
   const reels = [
@@ -1345,22 +1683,22 @@ const InstagramReelsGrid = () => {
             href="https://instagram.com"
             target="_blank"
             rel="noreferrer"
-            className="mb-10 px-6 py-2 border border-emerald-900/10 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-emerald-950 hover:text-white transition-all"
+            className="mb-10 px-6 py-2 border border-emerald-900 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-emerald-950 text-emerald-900 transition-all"
           >
             Follow @sundaythespa
           </a>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-1 md:gap-4 max-w-6xl mx-auto">
+        {/* Carousel on mobile, Grid on desktop */}
+        <div className="flex overflow-x-auto md:grid md:grid-cols-4 gap-4 pb-8 md:pb-0 snap-x snap-mandatory no-scrollbar max-w-6xl mx-auto">
           {reels.map((reel) => (
             <motion.div
               key={reel.id}
-              onClick={() => setPlayingId(reel.id)} // 2. Set active ID on click
-              className="relative aspect-[9/16] bg-stone-200 overflow-hidden group cursor-pointer"
+              onClick={() => setPlayingId(reel.id)}
+              className="relative min-w-[80vw] sm:min-w-[40vw] md:min-w-0 aspect-[9/16] bg-stone-200 overflow-hidden group cursor-pointer snap-center rounded-2xl md:rounded-none"
               whileHover={{ scale: 0.98 }}
             >
               {playingId === reel.id ? (
-                // 3. Show Video if this ID is playing
                 <video
                   src={reel.link}
                   className="absolute inset-0 w-full h-full object-cover"
@@ -1370,7 +1708,6 @@ const InstagramReelsGrid = () => {
                   controls={false}
                 />
               ) : (
-                // 4. Show Thumbnail and UI if not playing
                 <>
                   <img
                     src={reel.thumbnail}
@@ -1378,8 +1715,8 @@ const InstagramReelsGrid = () => {
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
 
-                  {/* Top Right: Reels Icon */}
-                  <div className="absolute top-3 right-3 text-white drop-shadow-md z-10">
+                  {/* Reels Icon */}
+                  <div className="absolute top-4 right-4 text-white drop-shadow-md z-10">
                     <svg
                       viewBox="0 0 24 24"
                       width="20"
@@ -1395,8 +1732,8 @@ const InstagramReelsGrid = () => {
                     </svg>
                   </div>
 
-                  {/* Bottom Left: Views */}
-                  <div className="absolute bottom-3 left-3 text-white text-xs font-bold flex items-center gap-1 drop-shadow-md z-10">
+                  {/* Views */}
+                  <div className="absolute bottom-4 left-4 text-white text-xs font-bold flex items-center gap-1 drop-shadow-md z-10">
                     <svg
                       viewBox="0 0 24 24"
                       width="14"
@@ -1408,7 +1745,6 @@ const InstagramReelsGrid = () => {
                     {reel.views}
                   </div>
 
-                  {/* Hover Overlay */}
                   <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </>
               )}
@@ -1420,7 +1756,87 @@ const InstagramReelsGrid = () => {
   );
 };
 
+const PromoPopup = ({
+  isOpen,
+  onClose,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+}) => {
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-[200] flex items-center justify-center p-6">
+          {/* Backdrop */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="absolute inset-0 bg-emerald-950/60 backdrop-blur-sm"
+          />
+
+          {/* Popup Content */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            className="relative w-full max-w-md bg-white rounded-[2.5rem] overflow-hidden shadow-2xl"
+          >
+            {/* Close Button */}
+            <button
+              onClick={onClose}
+              className="absolute top-6 right-6 text-stone-400 hover:text-emerald-950 transition-colors z-10"
+            >
+              <X size={24} />
+            </button>
+
+            <div className="p-10 text-center">
+              <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6 text-amber-600">
+                <Sparkles size={32} />
+              </div>
+
+              <h3 className="text-3xl font-serif text-emerald-950 mb-2">
+                Book Massage Starting at ₹1,799
+              </h3>
+              <p className="text-amber-600 font-bold text-xs uppercase tracking-widest mb-8">
+                Today only - Limited Slots Available
+              </p>
+
+              <div className="space-y-4 mb-10 text-left bg-stone-50 p-6 rounded-2xl">
+                <div className="flex items-center gap-3 text-stone-600">
+                  <ShieldCheck size={20} className="text-emerald-600" />
+                  <span className="text-sm font-medium">
+                    Certified & trained therapists
+                  </span>
+                </div>
+                <div className="flex items-center gap-3 text-stone-600">
+                  <Droplets size={20} className="text-emerald-600" />
+                  <span className="text-sm font-medium">
+                    100% Hygienic Environment
+                  </span>
+                </div>
+              </div>
+
+              <a
+                href="https://wa.me/918296962786?text=Hello%20Sunday%20the%20Spa%2C%20I%20would%20like%20to%20book%20the%201799%20offer."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-full bg-emerald-950 text-amber-200 font-bold py-4 rounded-full shadow-lg hover:bg-emerald-900 transition text-center"
+              >
+                Claim Offer via WhatsApp
+              </a>
+            </div>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
+  );
+};
+
 export default function Home() {
+  const [showPromo, setShowPromo] = useState(false);
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [trackingData, setTrackingData] = useState({
     gclid: "",
     utm_source: "",
@@ -1431,7 +1847,10 @@ export default function Home() {
   });
 
   useEffect(() => {
-    // 1. Get current URL params
+    // Show PromoPopup after 2 seconds
+    const timer = setTimeout(() => setShowPromo(true), 2000);
+
+    // Tracking logic
     const params = new URLSearchParams(window.location.search);
     const trackingFields = [
       "gclid",
@@ -1441,11 +1860,8 @@ export default function Home() {
       "utm_term",
       "utm_content",
     ];
-
     let updatedData: any = {};
-
     trackingFields.forEach((field) => {
-      // Priority: URL Param > LocalStorage > Default Empty
       const value =
         params.get(field) || localStorage.getItem(`track_${field}`) || "";
       if (value) {
@@ -1453,28 +1869,42 @@ export default function Home() {
         updatedData[field] = value;
       }
     });
-
     setTrackingData((prev) => ({ ...prev, ...updatedData }));
+
+    return () => clearTimeout(timer);
   }, []);
+
   return (
     <main className="bg-[#fdfcfb] selection:bg-emerald-200">
+      {/* Both popups are included here */}
+      <PromoPopup isOpen={showPromo} onClose={() => setShowPromo(false)} />
+      <BookingPopup
+        isOpen={isBookingOpen}
+        onClose={() => setIsBookingOpen(false)}
+        tracking={trackingData}
+      />
+
       <AmbientBackground />
       <Navbar />
       <FloatingCTA />
-      <Hero />
+
+      {/* Pass the booking trigger to the Hero button */}
+      <Hero onBookClick={() => setIsBookingOpen(true)} />
+
+      <div className="relative z-10 bg-white">
+        <Services />
+        <Memberships />
+      </div>
+
       <Brands />
       <div className="relative z-10 bg-[#fdfcfb]">
         <Philosophy />
-        <Services />
+
         <InstagramReelsGrid />
-        {/* <SignatureRituals /> */}
-        <Memberships />
+
         <Testimonials />
         <BookingSection tracking={trackingData} />
-
-        {/* Added Location section here */}
         <LocationSection />
-
         <Footer />
       </div>
     </main>
