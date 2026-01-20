@@ -165,20 +165,20 @@ const Navbar = () => {
                 scrolled ? "text-emerald-950" : "text-white"
               }`}
             >
-              SUNDAY
+              SUNDAY The Spa
             </span>
-            <div
+            {/* <div
               className={`w-[1px] h-4 ${
                 scrolled ? "bg-emerald-900/20" : "bg-white/20"
               }`}
-            />
-            <span
+            /> */}
+            {/* <span
               className={`text-[10px] uppercase tracking-[0.3em] font-medium ${
                 scrolled ? "text-emerald-800" : "text-stone-200"
               }`}
             >
               The Spa
-            </span>
+            </span> */}
           </div>
 
           <div className="hidden md:flex items-center gap-12">
@@ -198,6 +198,8 @@ const Navbar = () => {
     </nav>
   );
 };
+
+// src/app/page.tsx
 
 const BookingPopup = ({
   isOpen,
@@ -257,7 +259,7 @@ const BookingPopup = ({
             initial={{ scale: 0.9, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.9, opacity: 0, y: 20 }}
-            className="relative w-full max-w-2xl bg-white rounded-[2rem] overflow-hidden shadow-2xl p-8 md:p-12 max-h-[90vh] overflow-y-auto"
+            className="relative w-full max-w-2xl bg-white rounded-[2rem] overflow-hidden shadow-2xl p-8 md:p-12 max-h-[90vh] overflow-y-auto no-scrollbar"
           >
             <button
               onClick={onClose}
@@ -272,21 +274,20 @@ const BookingPopup = ({
                   <CheckCircle2 size={40} />
                 </div>
                 <h3 className="text-3xl font-serif text-emerald-950">
-                  Booking Request Received
+                  Request Sent
                 </h3>
                 <p className="text-stone-500">
-                  Our concierge will reach out to you within 15 minutes.
+                  Thank you for choosing Sunday the Spa. Our concierge will
+                  reach out to you within 15 minutes to confirm your slot.
                 </p>
               </div>
             ) : (
               <form className="space-y-8" onSubmit={handleSubmit}>
-                <div>
+                <div className="mb-4">
                   <h3 className="text-3xl font-serif text-emerald-950">
-                    Reserve Your Session
+                    Book Massage Starting at ₹1,799
                   </h3>
-                  <p className="text-stone-500 mt-2 italic">
-                    Standard rituals starting at ₹1,799
-                  </p>
+                  <div className="h-[1px] w-12 bg-amber-400/50 mt-3" />
                 </div>
 
                 {/* Hidden Tracking Fields */}
@@ -306,6 +307,16 @@ const BookingPopup = ({
                   name="utm_campaign"
                   value={tracking.utm_campaign}
                 />
+                <input
+                  type="hidden"
+                  name="utm_term"
+                  value={tracking.utm_term}
+                />
+                <input
+                  type="hidden"
+                  name="utm_content"
+                  value={tracking.utm_content}
+                />
 
                 <div className="grid md:grid-cols-2 gap-8">
                   <div className="space-y-2">
@@ -316,7 +327,7 @@ const BookingPopup = ({
                       name="name"
                       type="text"
                       required
-                      className="w-full border-b border-stone-200 py-3 focus:border-amber-500 outline-none text-emerald-950"
+                      className="w-full border-b border-stone-200 py-3 focus:border-amber-500 outline-none transition bg-transparent text-emerald-950 placeholder:text-stone-300"
                       placeholder="Your Name"
                     />
                   </div>
@@ -328,45 +339,105 @@ const BookingPopup = ({
                       name="phone"
                       type="tel"
                       required
-                      className="w-full border-b border-stone-200 py-3 focus:border-amber-500 outline-none text-emerald-950"
+                      className="w-full border-b border-stone-200 py-3 focus:border-amber-500 outline-none transition bg-transparent text-emerald-950 placeholder:text-stone-300"
                       placeholder="+91"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-8">
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
+                      Preferred Date
+                    </label>
+                    <input
+                      name="date"
+                      type="date"
+                      required
+                      className="w-full border-b border-stone-200 py-3 focus:border-amber-500 outline-none transition bg-transparent text-emerald-950 cursor-pointer"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
+                      Preferred Time
+                    </label>
+                    <input
+                      name="time"
+                      type="time"
+                      required
+                      className="w-full border-b border-stone-200 py-3 focus:border-amber-500 outline-none transition bg-transparent text-emerald-950 cursor-pointer"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <label className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
-                    Select Ritual
+                    Preferred Ritual
                   </label>
                   <select
                     name="ritual"
                     required
-                    className="w-full border-b border-stone-200 py-3 focus:border-amber-500 outline-none text-emerald-950 bg-transparent"
+                    className="w-full border-b border-stone-200 py-3 focus:border-amber-500 outline-none transition bg-transparent text-emerald-950 cursor-pointer"
                   >
                     <option value="">Select an experience</option>
-                    <option value="Sukoon Swedish (₹1799)">
-                      Sukoon Swedish (₹1799)
-                    </option>
-                    <option value="Fiza Aromatherapy (₹2700)">
-                      Fiza Aromatherapy (₹2700)
-                    </option>
-                    <option value="Rooh Deep Tissue (₹2800)">
-                      Rooh Deep Tissue (₹2800)
-                    </option>
-                    <option value="Sifar Thai Yoga (₹3200)">
-                      Sifar Thai Yoga (₹3200)
-                    </option>
+                    <optgroup label="Standard Services">
+                      <option value="Sukoon Swedish (₹1799)">
+                        Sukoon Swedish (₹1799)
+                      </option>
+                      <option value="Fiza Aromatherapy (₹2700)">
+                        Fiza Aromatherapy (₹2700)
+                      </option>
+                      <option value="Mukammal Balinese (₹2800)">
+                        Mukammal Balinese (₹2800)
+                      </option>
+                      <option value="Rooh Deep Tissue (₹2800)">
+                        Rooh Deep Tissue (₹2800)
+                      </option>
+                      <option value="Sifar Thai Yoga (₹3200)">
+                        Sifar Thai Yoga (₹3200)
+                      </option>
+                    </optgroup>
+                    <optgroup label="Premium KAMA Ayurveda">
+                      <option value="KAMA Sukoon Swedish (₹3000)">
+                        KAMA Sukoon Swedish (₹3000)
+                      </option>
+                      <option value="KAMA Rooh Deep Tissue (₹3000)">
+                        KAMA Rooh Deep Tissue (₹3000)
+                      </option>
+                      <option value="KAMA Mukammal Balinese (₹3000)">
+                        KAMA Mukammal Balinese (₹3000)
+                      </option>
+                      <option value="KAMA Fiza Aromatherapy (₹3200)">
+                        KAMA Fiza Aromatherapy (₹3200)
+                      </option>
+                    </optgroup>
                   </select>
                 </div>
 
-                <button
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                   disabled={isSubmitting}
                   type="submit"
-                  className="w-full bg-emerald-950 text-amber-200 font-bold py-5 rounded-full shadow-xl hover:bg-emerald-900 transition flex items-center justify-center gap-3"
+                  className={`w-full bg-emerald-950 text-amber-200 font-bold py-5 rounded-full mt-6 shadow-xl shadow-emerald-900/10 hover:bg-emerald-900 transition flex items-center justify-center gap-3 ${
+                    isSubmitting ? "opacity-70 cursor-not-allowed" : ""
+                  }`}
                 >
-                  {isSubmitting ? "Processing Request..." : "Confirm Booking"}{" "}
-                  <ArrowRight size={18} />
-                </button>
+                  {isSubmitting ? (
+                    <span className="flex items-center gap-2">
+                      <span className="w-4 h-4 border-2 border-amber-200 border-t-transparent rounded-full animate-spin" />
+                      Processing...
+                    </span>
+                  ) : (
+                    <>
+                      Send Inquiry <ArrowRight size={18} />
+                    </>
+                  )}
+                </motion.button>
+
+                <p className="text-center text-[10px] text-stone-400 uppercase tracking-widest">
+                  Immediate confirmation within 15 minutes
+                </p>
               </form>
             )}
           </motion.div>
@@ -419,18 +490,6 @@ const Hero = ({ onBookClick }: { onBookClick: () => void }) => {
               <span className="relative z-10">Book a treatment</span>
               <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
             </button>
-
-            <a
-              href={`tel:+${CONTACT_NUMBER}`}
-              className="flex items-center gap-4 text-white group transition-colors"
-            >
-              <div className="w-14 h-14 rounded-full border border-white/30 flex items-center justify-center group-hover:bg-amber-400 group-hover:border-amber-400 group-hover:text-emerald-950 transition-all duration-300">
-                <Phone size={20} strokeWidth={1.5} />
-              </div>
-              <span className="text-sm font-bold tracking-widest uppercase">
-                Call Us
-              </span>
-            </a>
           </div>
         </motion.div>
       </div>
@@ -1759,15 +1818,51 @@ const InstagramReelsGrid = () => {
 const PromoPopup = ({
   isOpen,
   onClose,
+  tracking,
 }: {
   isOpen: boolean;
   onClose: () => void;
+  tracking: any;
 }) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    const scriptURL =
+      "https://script.google.com/macros/s/AKfycbwauNJApMDduZWEBzATK2WWRgfkWFK3kedFlYdY3NhKtSmNOdeiR2NHQDHlBY3Y0ORxWw/exec";
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    try {
+      await fetch(scriptURL, {
+        method: "POST",
+        body: formData,
+        mode: "no-cors",
+      });
+      setIsSuccess(true);
+      form.reset();
+      // Close automatically after success
+      setTimeout(() => {
+        setIsSuccess(false);
+        onClose();
+      }, 3000);
+    } catch (error) {
+      console.error("Submission Error:", error);
+      alert(
+        "There was an issue sending your inquiry. Please try again or contact us directly.",
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center p-6">
-          {/* Backdrop */}
+        <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -1776,14 +1871,12 @@ const PromoPopup = ({
             className="absolute inset-0 bg-emerald-950/60 backdrop-blur-sm"
           />
 
-          {/* Popup Content */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="relative w-full max-w-md bg-white rounded-[2.5rem] overflow-hidden shadow-2xl"
+            className="no-scrollbar relative w-full max-w-2xl bg-white rounded-[2.5rem] overflow-hidden shadow-2xl p-8 md:p-12 max-h-[90vh] overflow-y-auto"
           >
-            {/* Close Button */}
             <button
               onClick={onClose}
               className="absolute top-6 right-6 text-stone-400 hover:text-emerald-950 transition-colors z-10"
@@ -1791,42 +1884,169 @@ const PromoPopup = ({
               <X size={24} />
             </button>
 
-            <div className="p-10 text-center">
-              <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6 text-amber-600">
-                <Sparkles size={32} />
-              </div>
-
-              <h3 className="text-3xl font-serif text-emerald-950 mb-2">
-                Book Massage Starting at ₹1,799
-              </h3>
-              <p className="text-amber-600 font-bold text-xs uppercase tracking-widest mb-8">
-                Today only - Limited Slots Available
-              </p>
-
-              <div className="space-y-4 mb-10 text-left bg-stone-50 p-6 rounded-2xl">
-                <div className="flex items-center gap-3 text-stone-600">
-                  <ShieldCheck size={20} className="text-emerald-600" />
-                  <span className="text-sm font-medium">
-                    Certified & trained therapists
-                  </span>
+            {isSuccess ? (
+              <div className="text-center py-12 space-y-6">
+                <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto text-emerald-600">
+                  <CheckCircle2 size={40} />
                 </div>
-                <div className="flex items-center gap-3 text-stone-600">
-                  <Droplets size={20} className="text-emerald-600" />
-                  <span className="text-sm font-medium">
-                    100% Hygienic Environment
-                  </span>
-                </div>
+                <h3 className="text-3xl font-serif text-emerald-950">
+                  Request Sent
+                </h3>
+                <p className="text-stone-500">
+                  Our concierge will reach out to you within 15 minutes to
+                  confirm your slot.
+                </p>
               </div>
+            ) : (
+              <form className="space-y-8" onSubmit={handleSubmit}>
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6 text-amber-600">
+                    <Sparkles size={32} />
+                  </div>
+                  <h3 className="text-3xl font-serif text-emerald-950">
+                    Book Massage Starting at ₹1,799
+                  </h3>
+                  <p className="text-amber-600 font-bold text-xs uppercase tracking-widest mt-2">
+                    Today only - Limited Slots Available
+                  </p>
+                </div>
 
-              <a
-                href="https://wa.me/918296962786?text=Hello%20Sunday%20the%20Spa%2C%20I%20would%20like%20to%20book%20the%201799%20offer."
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block w-full bg-emerald-950 text-amber-200 font-bold py-4 rounded-full shadow-lg hover:bg-emerald-900 transition text-center"
-              >
-                Claim Offer via WhatsApp
-              </a>
-            </div>
+                {/* Hidden Tracking Fields (Same as BookingSection) */}
+                <input type="hidden" name="gclid" value={tracking.gclid} />
+                <input
+                  type="hidden"
+                  name="utm_source"
+                  value={tracking.utm_source}
+                />
+                <input
+                  type="hidden"
+                  name="utm_medium"
+                  value={tracking.utm_medium}
+                />
+                <input
+                  type="hidden"
+                  name="utm_campaign"
+                  value={tracking.utm_campaign}
+                />
+                <input
+                  type="hidden"
+                  name="utm_term"
+                  value={tracking.utm_term}
+                />
+                <input
+                  type="hidden"
+                  name="utm_content"
+                  value={tracking.utm_content}
+                />
+
+                <div className="grid md:grid-cols-2 gap-8">
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
+                      Full Name
+                    </label>
+                    <input
+                      name="name"
+                      type="text"
+                      required
+                      className="w-full border-b border-stone-200 py-3 focus:border-amber-500 outline-none transition bg-transparent text-emerald-950"
+                      placeholder="Your Name"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
+                      Phone Number
+                    </label>
+                    <input
+                      name="phone"
+                      type="tel"
+                      required
+                      className="w-full border-b border-stone-200 py-3 focus:border-amber-500 outline-none transition bg-transparent text-emerald-950"
+                      placeholder="+91"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-8">
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
+                      Preferred Date
+                    </label>
+                    <input
+                      name="date"
+                      type="date"
+                      required
+                      className="w-full border-b border-stone-200 py-3 focus:border-amber-500 outline-none transition bg-transparent text-emerald-950"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
+                      Preferred Time
+                    </label>
+                    <input
+                      name="time"
+                      type="time"
+                      required
+                      className="w-full border-b border-stone-200 py-3 focus:border-amber-500 outline-none transition bg-transparent text-emerald-950"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
+                    Preferred Ritual
+                  </label>
+                  <select
+                    name="ritual"
+                    required
+                    className="w-full border-b border-stone-200 py-3 focus:border-amber-500 outline-none transition bg-transparent text-emerald-950"
+                  >
+                    <option value="">Select an experience</option>
+                    <optgroup label="Standard Services">
+                      <option value="Sukoon Swedish (₹1799)">
+                        Sukoon Swedish (₹1799)
+                      </option>
+                      <option value="Fiza Aromatherapy (₹2700)">
+                        Fiza Aromatherapy (₹2700)
+                      </option>
+                      <option value="Mukammal Balinese (₹2800)">
+                        Mukammal Balinese (₹2800)
+                      </option>
+                      <option value="Rooh Deep Tissue (₹2800)">
+                        Rooh Deep Tissue (₹2800)
+                      </option>
+                      <option value="Sifar Thai Yoga (₹3200)">
+                        Sifar Thai Yoga (₹3200)
+                      </option>
+                    </optgroup>
+                    <optgroup label="Premium KAMA Ayurveda">
+                      <option value="KAMA Sukoon Swedish (₹3000)">
+                        KAMA Sukoon Swedish (₹3000)
+                      </option>
+                      <option value="KAMA Rooh Deep Tissue (₹3000)">
+                        KAMA Rooh Deep Tissue (₹3000)
+                      </option>
+                      <option value="KAMA Mukammal Balinese (₹3000)">
+                        KAMA Mukammal Balinese (₹3000)
+                      </option>
+                      <option value="KAMA Fiza Aromatherapy (₹3200)">
+                        KAMA Fiza Aromatherapy (₹3200)
+                      </option>
+                    </optgroup>
+                  </select>
+                </div>
+
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  disabled={isSubmitting}
+                  type="submit"
+                  className="w-full bg-emerald-950 text-amber-200 font-bold py-5 rounded-full shadow-xl hover:bg-emerald-900 transition flex items-center justify-center gap-3"
+                >
+                  {isSubmitting ? "Processing..." : "Claim Offer Now"}{" "}
+                  <ArrowRight size={18} />
+                </motion.button>
+              </form>
+            )}
           </motion.div>
         </div>
       )}
@@ -1877,7 +2097,11 @@ export default function Home() {
   return (
     <main className="bg-[#fdfcfb] selection:bg-emerald-200">
       {/* Both popups are included here */}
-      <PromoPopup isOpen={showPromo} onClose={() => setShowPromo(false)} />
+      <PromoPopup
+        isOpen={showPromo}
+        onClose={() => setShowPromo(false)}
+        tracking={trackingData}
+      />
       <BookingPopup
         isOpen={isBookingOpen}
         onClose={() => setIsBookingOpen(false)}
