@@ -9,9 +9,14 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Eva International Spa - Best Rated Luxury Spa in Koramangala",
+  title: "Best Spa in HSR Layout | Luxury Massage & Wellness – Sunday The Spa",
   description:
-    "Premium body massage by certified therapists. 100% hygienic. Book Now @ ₹1,999",
+    "Looking for the best spa in HSR Layout? Experience luxury massages, certified therapists, and complete relaxation at Sunday The Spa. Book now!",
+  icons: {
+    icon: "/logo.png",
+    shortcut: "/logo.png",
+    apple: "/logo.png",
+  },
 };
 
 export default function RootLayout({
