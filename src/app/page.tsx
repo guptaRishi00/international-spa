@@ -41,6 +41,19 @@ const FloatingCTA = () => {
     "Hello Sunday the Spa, I would like to book a session.",
   )}`;
 
+  const handleWhatsAppClick = () => {
+    // Push dataLayer event for GTM tracking
+    if (typeof window !== "undefined" && window.dataLayer) {
+      window.dataLayer.push({
+        event: "whatsapp_click",
+        click_text: "WhatsApp Us",
+        click_url: WHATSAPP_URL,
+        click_location: "floating_cta",
+      });
+    }
+    window.open(WHATSAPP_URL, "_blank");
+  };
+
   return (
     <div className="fixed bottom-6 right-6 flex flex-col gap-4 z-[100]">
       {/* Call Button */}
@@ -57,7 +70,7 @@ const FloatingCTA = () => {
       {/* Real WhatsApp Button */}
       <div className="relative group">
         <motion.button
-          onClick={() => window.open(WHATSAPP_URL, "_blank")}
+          onClick={handleWhatsAppClick}
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ delay: 0.1 }}
@@ -545,6 +558,21 @@ const ServiceCard = ({
     `Hello Sunday the Spa, I would like to book a ${title} session.`,
   )}`;
 
+  const handleBookNowClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    // Push dataLayer event for GTM tracking
+    if (typeof window !== "undefined" && window.dataLayer) {
+      window.dataLayer.push({
+        event: "whatsapp_click",
+        click_text: "Book Now",
+        click_url: whatsappUrl,
+        click_location: "service_card",
+        service_name: title,
+        service_category: category,
+        service_price: price,
+      });
+    }
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -587,6 +615,7 @@ const ServiceCard = ({
           href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={handleBookNowClick}
           className="w-full bg-emerald-950 text-amber-200 text-center py-4 rounded-2xl text-xs font-bold uppercase tracking-widest hover:bg-emerald-800 transition-all flex items-center justify-center gap-2 group/btn"
         >
           <MessageCircle
