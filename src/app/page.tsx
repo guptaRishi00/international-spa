@@ -2156,7 +2156,7 @@ export default function Home() {
       <div className="relative z-10 bg-[#fdfcfb]">
         <Philosophy />
 
-        <InstagramReelsGrid />
+        {/* <InstagramReelsGrid /> */}
 
         <Testimonials />
         <BookingSection tracking={trackingData} />
