@@ -607,7 +607,7 @@ const ServiceCard = ({
     // Push dataLayer event for GTM tracking
     if (typeof window !== "undefined" && window.dataLayer) {
       window.dataLayer.push({
-        event: "whatsapp_click",
+        event: "book_now_click",
         click_text: "Book Now",
         click_url: whatsappUrl,
         click_location: "service_card",
