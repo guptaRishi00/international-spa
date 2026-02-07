@@ -41,6 +41,17 @@ const FloatingCTA = () => {
     "Hello Sunday the Spa, I would like to book a session.",
   )}`;
 
+  // Handler for the Call button GTM tracking
+  const handleCallClick = () => {
+    if (typeof window !== "undefined" && window.dataLayer) {
+      window.dataLayer.push({
+        event: "call_click",
+        click_text: "Call Us",
+        click_location: "floating_cta",
+      });
+    }
+  };
+
   const handleWhatsAppClick = () => {
     // Push dataLayer event for GTM tracking
     if (typeof window !== "undefined" && window.dataLayer) {
@@ -60,11 +71,14 @@ const FloatingCTA = () => {
       {/* Call Button */}
       <motion.a
         href={`tel:+${CONTACT_NUMBER}`}
+        onClick={handleCallClick}
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         whileHover={{ scale: 1.1 }}
         className="bg-white text-emerald-950 p-4 rounded-full shadow-2xl border border-emerald-100 flex items-center justify-center"
       >
+        {/* Hidden text for GTM Click Text tracking */}
+        <span className="sr-only">Call Us</span>
         <Phone size={24} />
       </motion.a>
 
@@ -120,9 +134,8 @@ const SectionHeading = ({
   isLight = false,
 }: any) => (
   <div
-    className={`mb-20 ${
-      align === "center" ? "text-center" : "text-left"
-    } max-w-3xl ${align === "center" ? "mx-auto" : ""}`}
+    className={`mb-20 ${align === "center" ? "text-center" : "text-left"
+      } max-w-3xl ${align === "center" ? "mx-auto" : ""}`}
   >
     <motion.span
       initial={{ opacity: 0, letterSpacing: "0.1em" }}
@@ -146,9 +159,8 @@ const SectionHeading = ({
       </p>
     )}
     <div
-      className={`h-[1px] w-24 bg-amber-400/50 mt-8 ${
-        align === "center" ? "mx-auto" : ""
-      }`}
+      className={`h-[1px] w-24 bg-amber-400/50 mt-8 ${align === "center" ? "mx-auto" : ""
+        }`}
     />
   </div>
 );
@@ -169,23 +181,20 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed top-0 w-full z-50 transition-all duration-700 ${
-        scrolled ? "py-4" : "py-8"
-      }`}
+      className={`fixed top-0 w-full z-50 transition-all duration-700 ${scrolled ? "py-4" : "py-8"
+        }`}
     >
       <div className="container mx-auto px-6">
         <div
-          className={`flex justify-between items-center rounded-full transition-all duration-500 px-8 ${
-            scrolled
-              ? "bg-white/70 backdrop-blur-xl shadow-lg border border-white/20 py-3"
-              : "py-0"
-          }`}
+          className={`flex justify-between items-center rounded-full transition-all duration-500 px-8 ${scrolled
+            ? "bg-white/70 backdrop-blur-xl shadow-lg border border-white/20 py-3"
+            : "py-0"
+            }`}
         >
           <div className="flex items-center gap-3">
             <span
-              className={`text-2xl font-serif tracking-tighter font-bold ${
-                scrolled ? "text-emerald-950" : "text-white"
-              }`}
+              className={`text-lg md:text-2xl font-serif tracking-tighter font-bold ${scrolled ? "text-emerald-950" : "text-white"
+                }`}
             >
               SUNDAY The Spa
             </span>
@@ -203,9 +212,17 @@ const Navbar = () => {
             </span> */}
           </div>
 
-          <div className="hidden md:flex items-center gap-12">
-            {/* Number Display */}
+          {/* Mobile Call Us Button - Same as Desktop */}
+          <a
+            href={callUrl}
+            className="md:hidden bg-emerald-950 text-amber-200 cursor-pointer px-6 py-2.5 rounded-full text-[11px] uppercase font-bold tracking-widest flex items-center gap-2 hover:bg-emerald-800 transition-all shadow-xl shadow-emerald-950/10"
+          >
+            <Phone size={14} />
+            Call Us
+          </a>
 
+          {/* Desktop Call Us Button */}
+          <div className="hidden md:flex items-center gap-12">
             {/* Call Us Button */}
             <a
               href={callUrl}
@@ -441,9 +458,8 @@ const BookingPopup = ({
                   whileTap={{ scale: 0.98 }}
                   disabled={isSubmitting}
                   type="submit"
-                  className={`w-full bg-emerald-950 text-amber-200 font-bold py-5 rounded-full mt-6 shadow-xl shadow-emerald-900/10 hover:bg-emerald-900 transition flex items-center justify-center gap-3 ${
-                    isSubmitting ? "opacity-70 cursor-not-allowed" : ""
-                  }`}
+                  className={`w-full bg-emerald-950 text-amber-200 font-bold py-5 rounded-full mt-6 shadow-xl shadow-emerald-900/10 hover:bg-emerald-900 transition flex items-center justify-center gap-3 ${isSubmitting ? "opacity-70 cursor-not-allowed" : ""
+                    }`}
                 >
                   {isSubmitting ? (
                     <span className="flex items-center gap-2">
@@ -1141,9 +1157,8 @@ const Testimonials = () => {
                 {testimonialsData.map((_, i) => (
                   <div
                     key={i}
-                    className={`h-1.5 transition-all duration-500 rounded-full ${
-                      index === i ? "w-8 bg-amber-400" : "w-2 bg-stone-200"
-                    }`}
+                    className={`h-1.5 transition-all duration-500 rounded-full ${index === i ? "w-8 bg-amber-400" : "w-2 bg-stone-200"
+                      }`}
                   />
                 ))}
               </div>
@@ -1412,9 +1427,8 @@ const BookingSection = ({ tracking }: { tracking: any }) => {
                     whileTap={{ scale: 0.98 }}
                     disabled={isSubmitting}
                     type="submit"
-                    className={`w-full bg-emerald-950 text-amber-200 font-bold py-5 rounded-full mt-6 shadow-xl shadow-emerald-900/10 hover:bg-emerald-900 transition flex items-center justify-center gap-3 ${
-                      isSubmitting ? "opacity-70 cursor-not-allowed" : ""
-                    }`}
+                    className={`w-full bg-emerald-950 text-amber-200 font-bold py-5 rounded-full mt-6 shadow-xl shadow-emerald-900/10 hover:bg-emerald-900 transition flex items-center justify-center gap-3 ${isSubmitting ? "opacity-70 cursor-not-allowed" : ""
+                      }`}
                   >
                     {isSubmitting ? (
                       <span className="flex items-center gap-2">
