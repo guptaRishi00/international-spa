@@ -529,7 +529,7 @@ const Hero = ({ onBookClick }: { onBookClick: () => void }) => {
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
         >
           <span className="text-amber-200 text-xs font-bold tracking-[0.4em] uppercase mb-6 block">
-            5000+ Happy Clients
+            Spa Near Me in HSR Layout
           </span>
           <h1 className="text-5xl md:text-8xl font-serif text-white mb-8 leading-tight">
             Premium Spa & Massage <br />
