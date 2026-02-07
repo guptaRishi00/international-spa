@@ -173,6 +173,17 @@ const Navbar = () => {
   const displayPhone = "+91 82969 62786";
   const callUrl = `tel:+${phoneNumber}`;
 
+  // GTM tracking handler for navbar call buttons
+  const handleNavbarCallClick = (location: string) => {
+    if (typeof window !== "undefined" && window.dataLayer) {
+      window.dataLayer.push({
+        event: "call_click",
+        click_text: "Call Us",
+        click_location: location,
+      });
+    }
+  };
+
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
@@ -215,6 +226,7 @@ const Navbar = () => {
           {/* Mobile Call Us Button - Same as Desktop */}
           <a
             href={callUrl}
+            onClick={() => handleNavbarCallClick("navbar_mobile")}
             className="md:hidden bg-emerald-950 text-amber-200 cursor-pointer px-6 py-2.5 rounded-full text-[11px] uppercase font-bold tracking-widest flex items-center gap-2 hover:bg-emerald-800 transition-all shadow-xl shadow-emerald-950/10"
           >
             <Phone size={14} />
@@ -226,6 +238,7 @@ const Navbar = () => {
             {/* Call Us Button */}
             <a
               href={callUrl}
+              onClick={() => handleNavbarCallClick("navbar_desktop")}
               className="bg-emerald-950 text-amber-200 cursor-pointer px-8 py-3 rounded-full text-[12px] uppercase font-bold tracking-widest flex items-center gap-2 hover:bg-emerald-800 transition-all shadow-xl shadow-emerald-950/10"
             >
               <Phone size={14} />
@@ -302,6 +315,7 @@ const BookingPopup = ({
           >
             <button
               onClick={onClose}
+              aria-label="Close booking form"
               className="absolute top-6 right-6 text-stone-400 hover:text-emerald-950 transition-colors"
             >
               <X size={24} />
@@ -386,22 +400,24 @@ const BookingPopup = ({
 
                 <div className="grid md:grid-cols-2 gap-8">
                   <div className="space-y-2">
-                    <label className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
+                    <label htmlFor="popup-date" className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
                       Preferred Date
                     </label>
                     <input
                       name="date"
+                      id="popup-date"
                       type="date"
                       required
                       className="w-full border-b border-stone-200 py-3 focus:border-amber-500 outline-none transition bg-transparent text-emerald-950 cursor-pointer"
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
+                    <label htmlFor="popup-time" className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
                       Preferred Time
                     </label>
                     <input
                       name="time"
+                      id="popup-time"
                       type="time"
                       required
                       className="w-full border-b border-stone-200 py-3 focus:border-amber-500 outline-none transition bg-transparent text-emerald-950 cursor-pointer"
@@ -481,8 +497,9 @@ const BookingPopup = ({
             )}
           </motion.div>
         </div>
-      )}
-    </AnimatePresence>
+      )
+      }
+    </AnimatePresence >
   );
 };
 
@@ -799,6 +816,17 @@ const Footer = () => {
   // Create a call URL using the tel: protocol
   const callUrl = `tel:+${phoneNumber}`;
 
+  // GTM tracking handler for footer call buttons
+  const handleFooterCallClick = (location: string) => {
+    if (typeof window !== "undefined" && window.dataLayer) {
+      window.dataLayer.push({
+        event: "call_click",
+        click_text: "Call to Book",
+        click_location: location,
+      });
+    }
+  };
+
   return (
     <footer className="bg-emerald-950 text-stone-300 py-24">
       <div className="container mx-auto px-6">
@@ -811,16 +839,17 @@ const Footer = () => {
               {/* Primary Call Action */}
               <a
                 href={callUrl}
+                onClick={() => handleFooterCallClick("footer_cta")}
                 className="bg-amber-400 text-emerald-950 px-8 py-4 rounded-full font-bold text-sm hover:bg-white transition-colors flex items-center gap-2"
               >
                 <Phone size={18} />
                 Call to Book
               </a>
               <div className="flex gap-2">
-                <button className="p-4 border border-white/20 rounded-full hover:bg-white/5 transition">
+                <button aria-label="Follow us on Instagram" className="p-4 border border-white/20 rounded-full hover:bg-white/5 transition">
                   <Instagram size={20} />
                 </button>
-                <button className="p-4 border border-white/20 rounded-full hover:bg-white/5 transition">
+                <button aria-label="Follow us on Facebook" className="p-4 border border-white/20 rounded-full hover:bg-white/5 transition">
                   <Facebook size={20} />
                 </button>
               </div>
@@ -847,7 +876,7 @@ const Footer = () => {
               Contact Us
             </h3>
             {/* Updated Clickable Phone Number to redirect to call */}
-            <a href={callUrl} className="group block">
+            <a href={callUrl} onClick={() => handleFooterCallClick("footer_phone")} className="group block">
               <p className="text-lg text-amber-200 mb-2 group-hover:text-white transition-colors">
                 {displayPhone}
               </p>
@@ -1146,6 +1175,7 @@ const Testimonials = () => {
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={prevStep}
+                aria-label="Previous testimonial"
                 className="w-14 h-14 rounded-full border border-emerald-900/10 flex items-center justify-center hover:bg-emerald-950 hover:text-white transition-all group"
               >
                 <ChevronRight
@@ -1168,6 +1198,7 @@ const Testimonials = () => {
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={nextStep}
+                aria-label="Next testimonial"
                 className="w-14 h-14 rounded-full border border-emerald-900/10 flex items-center justify-center hover:bg-emerald-950 hover:text-white transition-all group"
               >
                 <ChevronRight
@@ -1355,22 +1386,24 @@ const BookingSection = ({ tracking }: { tracking: any }) => {
                   {/* Row 2: Date & Time */}
                   <div className="grid md:grid-cols-2 gap-8">
                     <div className="space-y-2">
-                      <label className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
+                      <label htmlFor="section-date" className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
                         Preferred Date
                       </label>
                       <input
                         name="date"
+                        id="section-date"
                         type="date"
                         required
                         className="w-full border-b border-stone-200 py-3 focus:border-amber-500 outline-none transition bg-transparent text-emerald-950 cursor-pointer"
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
+                      <label htmlFor="section-time" className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
                         Preferred Time
                       </label>
                       <input
                         name="time"
+                        id="section-time"
                         type="time"
                         required
                         className="w-full border-b border-stone-200 py-3 focus:border-amber-500 outline-none transition bg-transparent text-emerald-950 cursor-pointer"
