@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import {
   Phone,
   MessageCircle,
@@ -515,10 +516,13 @@ const Hero = ({ onBookClick }: { onBookClick: () => void }) => {
       <motion.div style={{ y: y1 }} className="absolute inset-0 z-0">
         {/* Increased overlay darkness to 80% to make white text stand out */}
         <div className="absolute inset-0 bg-emerald-950/80 z-10" />
-        <img
+        <Image
           src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=2070"
-          className="w-full h-full object-cover scale-110 opacity-40" // Reduced image opacity from 70 to 40
+          className="w-full h-full object-cover scale-110 opacity-40"
           alt="Luxury Spa"
+          fill
+          priority
+          sizes="100vw"
         />
       </motion.div>
 
@@ -568,10 +572,12 @@ const ExperienceCard = ({ title, category, price, image, delay }: any) => (
     className="group cursor-pointer"
   >
     <div className="relative aspect-[4/5] overflow-hidden rounded-2xl mb-6">
-      <img
+      <Image
         src={image}
         alt={title}
         className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110"
+        fill
+        sizes="(max-width: 768px) 100vw, 33vw"
       />
       <div className="absolute inset-0 bg-emerald-950/20 group-hover:bg-emerald-950/0 transition-colors duration-500" />
       <div className="absolute bottom-6 left-6 right-6 p-6 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
@@ -627,10 +633,12 @@ const ServiceCard = ({
     >
       {/* 1. Image */}
       <div className="relative aspect-video overflow-hidden">
-        <img
+        <Image
           src={image}
           alt={title}
           className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110"
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
         <div className="absolute top-4 left-4 bg-emerald-950/80 backdrop-blur-md text-amber-200 text-[9px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">
           {category}
@@ -913,10 +921,12 @@ const Philosophy = () => {
             className="relative"
           >
             <div className="relative z-10 aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl">
-              <img
+              <Image
                 src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=800"
                 className="w-full h-full object-cover opacity-80"
                 alt="Philosophy"
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
               />
             </div>
             {/* Decorative Gold Frame */}
@@ -1258,10 +1268,12 @@ const BookingSection = ({ tracking }: { tracking: any }) => {
           {/* Left Side: Imagery & Vibe */}
           <div className="lg:w-1/2 relative p-12 lg:p-20 flex flex-col justify-end">
             <div className="absolute inset-0 z-0">
-              <img
+              <Image
                 src="https://images.unsplash.com/photo-1600334129128-685c5582fd35?q=80&w=1000"
                 className="w-full h-full object-cover opacity-30 grayscale"
                 alt="Spa Atmosphere"
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-950/40 to-transparent" />
             </div>
@@ -1510,7 +1522,7 @@ const Brands = () => {
     },
     {
       name: "Elemis",
-      url: "ola.avif",
+      url: "/ola.avif",
     },
   ];
 
@@ -1544,7 +1556,7 @@ const Brands = () => {
               key={idx}
               className="flex flex-col items-center justify-center w-48"
             >
-              <img
+              <Image
                 src={brand.url}
                 alt={brand.name}
                 width={120}
@@ -1717,10 +1729,12 @@ const LocationSection = () => {
             whileInView={{ opacity: 1, scale: 1 }}
             className="w-full lg:w-3/5 aspect-video bg-emerald-900/10 rounded-[3rem] overflow-hidden relative group"
           >
-            <img
+            <Image
               src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=2000"
               alt="Map Location"
               className="w-full h-full object-cover grayscale opacity-50 group-hover:opacity-70 transition-opacity duration-700"
+              fill
+              sizes="(max-width: 1024px) 100vw, 60vw"
             />
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="bg-white/90 backdrop-blur-md p-6 rounded-3xl shadow-2xl flex flex-col items-center gap-4 border border-emerald-900/5">
@@ -1851,10 +1865,12 @@ const InstagramReelsGrid = () => {
                 />
               ) : (
                 <>
-                  <img
+                  <Image
                     src={reel.thumbnail}
                     alt="Reel thumbnail"
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    fill
+                    sizes="(max-width: 640px) 80vw, (max-width: 768px) 40vw, 25vw"
                   />
 
                   {/* Reels Icon */}
