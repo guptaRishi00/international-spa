@@ -410,11 +410,12 @@ const BookingPopup = ({
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
+                  <label htmlFor="popup-ritual-select" className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
                     Preferred Ritual
                   </label>
                   <select
                     name="ritual"
+                    id="popup-ritual-select"
                     required
                     className="w-full border-b border-stone-200 py-3 focus:border-amber-500 outline-none transition bg-transparent text-emerald-950 cursor-pointer"
                   >
@@ -827,9 +828,9 @@ const Footer = () => {
           </div>
 
           <div>
-            <h4 className="text-white text-xs font-bold uppercase tracking-[0.2em] mb-6">
+            <h3 className="text-white text-xs font-bold uppercase tracking-[0.2em] mb-6">
               H.S.R Layout
-            </h4>
+            </h3>
             <p className="text-sm leading-relaxed opacity-70">
               No. 14, 13th Cross,
               <br />
@@ -842,9 +843,9 @@ const Footer = () => {
           </div>
 
           <div>
-            <h4 className="text-white text-xs font-bold uppercase tracking-[0.2em] mb-6">
+            <h3 className="text-white text-xs font-bold uppercase tracking-[0.2em] mb-6">
               Contact Us
-            </h4>
+            </h3>
             {/* Updated Clickable Phone Number to redirect to call */}
             <a href={callUrl} className="group block">
               <p className="text-lg text-amber-200 mb-2 group-hover:text-white transition-colors">
@@ -936,9 +937,9 @@ const Philosophy = () => {
                     {item.icon}
                   </span>
                   <div>
-                    <h4 className="text-xl font-serif mb-2 text-amber-100">
+                    <h3 className="text-xl font-serif mb-2 text-amber-100">
                       {item.title}
-                    </h4>
+                    </h3>
                     <p className="text-stone-400 font-light leading-relaxed">
                       {item.desc}
                     </p>
@@ -1129,9 +1130,9 @@ const Testimonials = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
                 >
-                  <h5 className="font-bold text-emerald-950 tracking-widest uppercase text-xs">
+                  <h3 className="font-bold text-emerald-950 tracking-widest uppercase text-xs">
                     {testimonialsData[index].author}
-                  </h5>
+                  </h3>
                   <p className="text-stone-400 text-[10px] mt-1 uppercase tracking-widest">
                     {testimonialsData[index].role}
                   </p>
@@ -1379,11 +1380,12 @@ const BookingSection = ({ tracking }: { tracking: any }) => {
 
                   {/* Row 3: Service Selection */}
                   <div className="space-y-2">
-                    <label className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
+                    <label htmlFor="section-ritual-select" className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
                       Preferred Ritual
                     </label>
                     <select
                       name="ritual"
+                      id="section-ritual-select"
                       required
                       className="w-full border-b border-stone-200 py-3 focus:border-amber-500 outline-none transition bg-transparent text-emerald-950 cursor-pointer"
                     >
@@ -1512,6 +1514,8 @@ const Brands = () => {
               <img
                 src={brand.url}
                 alt={brand.name}
+                width={120}
+                height={48}
                 className="h-8 md:h-12 w-auto object-contain transition-all duration-500 cursor-pointer"
               />
             </div>
