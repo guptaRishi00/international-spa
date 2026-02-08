@@ -147,8 +147,9 @@ const SectionHeading = ({
   isLight = false,
 }: any) => (
   <div
-    className={`mb-20 ${align === "center" ? "text-center" : "text-left"
-      } max-w-3xl ${align === "center" ? "mx-auto" : ""}`}
+    className={`mb-20 ${
+      align === "center" ? "text-center" : "text-left"
+    } max-w-3xl ${align === "center" ? "mx-auto" : ""}`}
   >
     <motion.span
       initial={{ opacity: 0, letterSpacing: "0.1em" }}
@@ -172,8 +173,9 @@ const SectionHeading = ({
       </p>
     )}
     <div
-      className={`h-[1px] w-24 bg-amber-400/50 mt-8 ${align === "center" ? "mx-auto" : ""
-        }`}
+      className={`h-[1px] w-24 bg-amber-400/50 mt-8 ${
+        align === "center" ? "mx-auto" : ""
+      }`}
     />
   </div>
 );
@@ -205,20 +207,23 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed top-0 w-full z-50 transition-all duration-700 ${scrolled ? "py-4" : "py-8"
-        }`}
+      className={`fixed top-0 w-full z-50 transition-all duration-700 ${
+        scrolled ? "py-4" : "py-8"
+      }`}
     >
       <div className="container mx-auto px-6">
         <div
-          className={`flex justify-between items-center rounded-full transition-all duration-500 px-8 ${scrolled
-            ? "bg-white/70 backdrop-blur-xl shadow-lg border border-white/20 py-3"
-            : "py-0"
-            }`}
+          className={`flex justify-between items-center rounded-full transition-all duration-500 px-8 ${
+            scrolled
+              ? "bg-white/70 backdrop-blur-xl shadow-lg border border-white/20 py-3"
+              : "py-0"
+          }`}
         >
           <div className="flex items-center gap-3">
             <span
-              className={`text-lg md:text-2xl font-serif tracking-tighter font-bold ${scrolled ? "text-emerald-950" : "text-white"
-                }`}
+              className={`text-lg md:text-2xl font-serif tracking-tighter font-bold ${
+                scrolled ? "text-emerald-950" : "text-white"
+              }`}
             >
               SUNDAY The Spa
             </span>
@@ -277,7 +282,7 @@ const Hero = ({ onBookClick }: { onBookClick: () => void }) => {
         {/* Increased overlay darkness to 80% to make white text stand out */}
         <div className="absolute inset-0 bg-emerald-950/80 z-10" />
         <Image
-          src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=2070"
+          src="/bg.webp"
           className="w-full h-full object-cover scale-110 opacity-40"
           alt="Luxury Spa"
           fill
@@ -613,10 +618,16 @@ const Footer = () => {
                 Call to Book
               </a>
               <div className="flex gap-2">
-                <button aria-label="Follow us on Instagram" className="p-4 border border-white/20 rounded-full hover:bg-white/5 transition">
+                <button
+                  aria-label="Follow us on Instagram"
+                  className="p-4 border border-white/20 rounded-full hover:bg-white/5 transition"
+                >
                   <Instagram size={20} />
                 </button>
-                <button aria-label="Follow us on Facebook" className="p-4 border border-white/20 rounded-full hover:bg-white/5 transition">
+                <button
+                  aria-label="Follow us on Facebook"
+                  className="p-4 border border-white/20 rounded-full hover:bg-white/5 transition"
+                >
                   <Facebook size={20} />
                 </button>
               </div>
@@ -643,7 +654,11 @@ const Footer = () => {
               Contact Us
             </h3>
             {/* Updated Clickable Phone Number to redirect to call */}
-            <a href={callUrl} onClick={() => handleFooterCallClick("footer_phone")} className="group block">
+            <a
+              href={callUrl}
+              onClick={() => handleFooterCallClick("footer_phone")}
+              className="group block"
+            >
               <p className="text-lg text-amber-200 mb-2 group-hover:text-white transition-colors">
                 {displayPhone}
               </p>
@@ -957,8 +972,9 @@ const Testimonials = () => {
                 {testimonialsData.map((_, i) => (
                   <div
                     key={i}
-                    className={`h-1.5 transition-all duration-500 rounded-full ${index === i ? "w-8 bg-amber-400" : "w-2 bg-stone-200"
-                      }`}
+                    className={`h-1.5 transition-all duration-500 rounded-full ${
+                      index === i ? "w-8 bg-amber-400" : "w-2 bg-stone-200"
+                    }`}
                   />
                 ))}
               </div>
@@ -1157,7 +1173,10 @@ const BookingSection = ({ tracking }: { tracking: any }) => {
                   {/* Row 2: Date & Time */}
                   <div className="grid md:grid-cols-2 gap-8">
                     <div className="space-y-2">
-                      <label htmlFor="section-date" className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
+                      <label
+                        htmlFor="section-date"
+                        className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest"
+                      >
                         Preferred Date
                       </label>
                       <input
@@ -1169,7 +1188,10 @@ const BookingSection = ({ tracking }: { tracking: any }) => {
                       />
                     </div>
                     <div className="space-y-2">
-                      <label htmlFor="section-time" className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
+                      <label
+                        htmlFor="section-time"
+                        className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest"
+                      >
                         Preferred Time
                       </label>
                       <input
@@ -1184,7 +1206,10 @@ const BookingSection = ({ tracking }: { tracking: any }) => {
 
                   {/* Row 3: Service Selection */}
                   <div className="space-y-2">
-                    <label htmlFor="section-ritual-select" className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
+                    <label
+                      htmlFor="section-ritual-select"
+                      className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest"
+                    >
                       Preferred Ritual
                     </label>
                     <select
@@ -1233,8 +1258,9 @@ const BookingSection = ({ tracking }: { tracking: any }) => {
                     whileTap={{ scale: 0.98 }}
                     disabled={isSubmitting}
                     type="submit"
-                    className={`w-full bg-emerald-950 text-amber-200 font-bold py-5 rounded-full mt-6 shadow-xl shadow-emerald-900/10 hover:bg-emerald-900 transition flex items-center justify-center gap-3 ${isSubmitting ? "opacity-70 cursor-not-allowed" : ""
-                      }`}
+                    className={`w-full bg-emerald-950 text-amber-200 font-bold py-5 rounded-full mt-6 shadow-xl shadow-emerald-900/10 hover:bg-emerald-900 transition flex items-center justify-center gap-3 ${
+                      isSubmitting ? "opacity-70 cursor-not-allowed" : ""
+                    }`}
                   >
                     {isSubmitting ? (
                       <span className="flex items-center gap-2">
@@ -1320,7 +1346,7 @@ const Brands = () => {
                 alt={brand.name}
                 width={120}
                 height={48}
-                style={{ height: 'auto' }}
+                style={{ height: "auto" }}
                 className="h-8 md:h-12 w-auto object-contain transition-all duration-500 cursor-pointer"
               />
             </div>
