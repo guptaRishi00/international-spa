@@ -133,7 +133,7 @@ const AmbientBackground = () => (
   <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
     <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-emerald-100/30 blur-[120px]" />
     <div className="absolute bottom-[-5%] right-[-5%] w-[30%] h-[30%] rounded-full bg-amber-100/20 blur-[100px]" />
-    <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/p6.png')] opacity-[0.03] contrast-150" />
+    {/* <div className="absolute inset-0 bg-[url('/p6.png')] opacity-[0.03] contrast-150" /> */}
   </div>
 );
 
@@ -147,9 +147,8 @@ const SectionHeading = ({
   isLight = false,
 }: any) => (
   <div
-    className={`mb-20 ${
-      align === "center" ? "text-center" : "text-left"
-    } max-w-3xl ${align === "center" ? "mx-auto" : ""}`}
+    className={`mb-20 ${align === "center" ? "text-center" : "text-left"
+      } max-w-3xl ${align === "center" ? "mx-auto" : ""}`}
   >
     <motion.span
       initial={{ opacity: 0, letterSpacing: "0.1em" }}
@@ -173,9 +172,8 @@ const SectionHeading = ({
       </p>
     )}
     <div
-      className={`h-[1px] w-24 bg-amber-400/50 mt-8 ${
-        align === "center" ? "mx-auto" : ""
-      }`}
+      className={`h-[1px] w-24 bg-amber-400/50 mt-8 ${align === "center" ? "mx-auto" : ""
+        }`}
     />
   </div>
 );
@@ -207,23 +205,20 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed top-0 w-full z-50 transition-all duration-700 ${
-        scrolled ? "py-4" : "py-8"
-      }`}
+      className={`fixed top-0 w-full z-50 transition-all duration-700 ${scrolled ? "py-4" : "py-8"
+        }`}
     >
       <div className="container mx-auto px-6">
         <div
-          className={`flex justify-between items-center rounded-full transition-all duration-500 px-8 ${
-            scrolled
-              ? "bg-white/70 backdrop-blur-xl shadow-lg border border-white/20 py-3"
-              : "py-0"
-          }`}
+          className={`flex justify-between items-center rounded-full transition-all duration-500 px-8 ${scrolled
+            ? "bg-white/70 backdrop-blur-xl shadow-lg border border-white/20 py-3"
+            : "py-0"
+            }`}
         >
           <div className="flex items-center gap-3">
             <span
-              className={`text-lg md:text-2xl font-serif tracking-tighter font-bold ${
-                scrolled ? "text-emerald-950" : "text-white"
-              }`}
+              className={`text-lg md:text-2xl font-serif tracking-tighter font-bold ${scrolled ? "text-emerald-950" : "text-white"
+                }`}
             >
               SUNDAY The Spa
             </span>
@@ -972,9 +967,8 @@ const Testimonials = () => {
                 {testimonialsData.map((_, i) => (
                   <div
                     key={i}
-                    className={`h-1.5 transition-all duration-500 rounded-full ${
-                      index === i ? "w-8 bg-amber-400" : "w-2 bg-stone-200"
-                    }`}
+                    className={`h-1.5 transition-all duration-500 rounded-full ${index === i ? "w-8 bg-amber-400" : "w-2 bg-stone-200"
+                      }`}
                   />
                 ))}
               </div>
@@ -1258,9 +1252,8 @@ const BookingSection = ({ tracking }: { tracking: any }) => {
                     whileTap={{ scale: 0.98 }}
                     disabled={isSubmitting}
                     type="submit"
-                    className={`w-full bg-emerald-950 text-amber-200 font-bold py-5 rounded-full mt-6 shadow-xl shadow-emerald-900/10 hover:bg-emerald-900 transition flex items-center justify-center gap-3 ${
-                      isSubmitting ? "opacity-70 cursor-not-allowed" : ""
-                    }`}
+                    className={`w-full bg-emerald-950 text-amber-200 font-bold py-5 rounded-full mt-6 shadow-xl shadow-emerald-900/10 hover:bg-emerald-900 transition flex items-center justify-center gap-3 ${isSubmitting ? "opacity-70 cursor-not-allowed" : ""
+                      }`}
                   >
                     {isSubmitting ? (
                       <span className="flex items-center gap-2">
