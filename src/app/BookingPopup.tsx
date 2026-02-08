@@ -129,10 +129,11 @@ const BookingPopup = ({ isOpen, onClose, tracking }: BookingPopupProps) => {
 
                                 <div className="grid md:grid-cols-2 gap-8">
                                     <div className="space-y-2">
-                                        <label className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
+                                        <label htmlFor="booking-name" className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
                                             Full Name
                                         </label>
                                         <input
+                                            id="booking-name"
                                             name="name"
                                             type="text"
                                             required
@@ -141,10 +142,11 @@ const BookingPopup = ({ isOpen, onClose, tracking }: BookingPopupProps) => {
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <label className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
+                                        <label htmlFor="booking-phone" className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
                                             Phone Number
                                         </label>
                                         <input
+                                            id="booking-phone"
                                             name="phone"
                                             type="tel"
                                             required

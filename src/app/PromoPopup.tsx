@@ -73,6 +73,7 @@ const PromoPopup = ({ isOpen, onClose, tracking }: PromoPopupProps) => {
                     >
                         <button
                             onClick={onClose}
+                            aria-label="Close promo form"
                             className="absolute top-6 right-6 text-stone-400 hover:text-emerald-950 transition-colors z-10"
                         >
                             <X size={24} />
@@ -135,10 +136,11 @@ const PromoPopup = ({ isOpen, onClose, tracking }: PromoPopupProps) => {
 
                                 <div className="grid md:grid-cols-2 gap-8">
                                     <div className="space-y-2">
-                                        <label className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
+                                        <label htmlFor="promo-name" className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
                                             Full Name
                                         </label>
                                         <input
+                                            id="promo-name"
                                             name="name"
                                             type="text"
                                             required
@@ -147,10 +149,11 @@ const PromoPopup = ({ isOpen, onClose, tracking }: PromoPopupProps) => {
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <label className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
+                                        <label htmlFor="promo-phone" className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
                                             Phone Number
                                         </label>
                                         <input
+                                            id="promo-phone"
                                             name="phone"
                                             type="tel"
                                             required
@@ -162,10 +165,11 @@ const PromoPopup = ({ isOpen, onClose, tracking }: PromoPopupProps) => {
 
                                 <div className="grid md:grid-cols-2 gap-8">
                                     <div className="space-y-2">
-                                        <label className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
+                                        <label htmlFor="promo-date" className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
                                             Preferred Date
                                         </label>
                                         <input
+                                            id="promo-date"
                                             name="date"
                                             type="date"
                                             required
@@ -173,10 +177,11 @@ const PromoPopup = ({ isOpen, onClose, tracking }: PromoPopupProps) => {
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <label className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
+                                        <label htmlFor="promo-time" className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
                                             Preferred Time
                                         </label>
                                         <input
+                                            id="promo-time"
                                             name="time"
                                             type="time"
                                             required
@@ -186,10 +191,11 @@ const PromoPopup = ({ isOpen, onClose, tracking }: PromoPopupProps) => {
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
+                                    <label htmlFor="promo-ritual" className="text-[10px] font-bold text-emerald-900 uppercase tracking-widest">
                                         Preferred Ritual
                                     </label>
                                     <select
+                                        id="promo-ritual"
                                         name="ritual"
                                         required
                                         className="w-full border-b border-stone-200 py-3 focus:border-amber-500 outline-none transition bg-transparent text-emerald-950"

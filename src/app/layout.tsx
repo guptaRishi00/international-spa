@@ -33,7 +33,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://www.transparenttextures.com" />
 
         {/* Google Tag Manager */}
-        <Script id="google-tag-manager" strategy="afterInteractive">
+        <Script id="google-tag-manager" strategy="lazyOnload">
           {`
             (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
             new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -48,9 +48,9 @@ export default function RootLayout({
         <Script
           async
           src="https://www.googletagmanager.com/gtag/js?id=AW-17858315597"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
-        <Script id="google-ads" strategy="afterInteractive">
+        <Script id="google-ads" strategy="lazyOnload">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
