@@ -288,9 +288,8 @@ const Hero = ({ onBookClick }: { onBookClick: () => void }) => {
 
       <div className="container mx-auto px-6 z-20 text-center">
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 1, y: 0 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
         >
           <span className="text-amber-200 text-xs font-bold tracking-[0.4em] uppercase mb-6 block">
             Spa Near Me in HSR Layout
@@ -1321,6 +1320,7 @@ const Brands = () => {
                 alt={brand.name}
                 width={120}
                 height={48}
+                style={{ height: 'auto' }}
                 className="h-8 md:h-12 w-auto object-contain transition-all duration-500 cursor-pointer"
               />
             </div>
