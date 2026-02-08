@@ -33,5 +33,11 @@
   "trustedDependencies": [
     "sharp",
     "unrs-resolver"
+  ],
+  "browserslist": [
+    "last 2 years",
+    "> 0.5%",
+    "not dead",
+    "not ie 11"
   ]
 }

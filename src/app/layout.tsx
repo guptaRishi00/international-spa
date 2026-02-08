@@ -29,6 +29,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* Preconnect to third-party origins */}
+        <link rel="preconnect" href="https://www.transparenttextures.com" />
+
         {/* Google Tag Manager */}
         <Script id="google-tag-manager" strategy="afterInteractive">
           {`
