@@ -5,7 +5,6 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import {
   Phone,
-  MessageCircle,
   Star,
   Clock,
   ShieldCheck,
@@ -264,7 +263,7 @@ const Navbar = () => {
   );
 };
 
-const Hero = ({ onBookClick }: { onBookClick: () => void }) => {
+const Hero = () => {
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 500], [0, 200]);
 
@@ -302,13 +301,13 @@ const Hero = ({ onBookClick }: { onBookClick: () => void }) => {
           </h1>
 
           <div className="flex flex-col md:flex-row items-center justify-center gap-8 mt-12">
-            <button
-              onClick={onBookClick}
+            <a
+              href={`tel:+${CONTACT_NUMBER}`}
               className="group relative px-10 py-5 bg-amber-400 text-emerald-950 font-bold rounded-full overflow-hidden transition-all"
             >
               <span className="relative z-10">Book a treatment</span>
               <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
-            </button>
+            </a>
           </div>
         </motion.div>
       </div>
@@ -343,9 +342,9 @@ const ExperienceCard = ({ title, category, price, image, delay }: any) => (
         <p className="text-white text-xs font-medium mb-1 uppercase tracking-tighter">
           Starting at ₹{price}
         </p>
-        <button className="text-amber-200 text-[10px] font-bold uppercase flex items-center gap-2">
+        <a href={`tel:+918296962786`} className="text-amber-200 text-[10px] font-bold uppercase flex items-center gap-2">
           Book Now <ChevronRight size={14} />
-        </button>
+        </a>
       </div>
     </div>
     <span className="text-[10px] font-bold text-amber-600 uppercase tracking-widest mb-2 block">
@@ -364,17 +363,15 @@ const ServiceCard = ({
   image,
   delay,
 }: any) => {
-  const whatsappUrl = `https://wa.me/918296962786?text=${encodeURIComponent(
-    `Hello Sunday the Spa, I would like to book a ${title} session.`,
-  )}`;
+  const callUrl = `tel:+918296962786`;
 
-  const handleBookNowClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleBookNowClick = () => {
     // Push dataLayer event for GTM tracking
     if (typeof window !== "undefined" && window.dataLayer) {
       window.dataLayer.push({
         event: "book_now_click",
         click_text: "Book Now",
-        click_url: whatsappUrl,
+        click_url: callUrl,
         click_location: "service_card",
         service_name: title,
         service_category: category,
@@ -422,15 +419,13 @@ const ServiceCard = ({
           {description}
         </p>
 
-        {/* 3. Book Now Button (WhatsApp Redirect) */}
+        {/* 3. Book Now Button (Call Redirect) */}
         <a
-          href={whatsappUrl}
-          target="_blank"
-          rel="noopener noreferrer"
+          href={callUrl}
           onClick={handleBookNowClick}
           className="w-full bg-emerald-950 text-amber-200 text-center py-4 rounded-2xl text-xs font-bold uppercase tracking-widest hover:bg-emerald-800 transition-all flex items-center justify-center gap-2 group/btn"
         >
-          <MessageCircle
+          <Phone
             size={16}
             className="group-hover/btn:scale-110 transition-transform"
           />
@@ -833,9 +828,9 @@ const SignatureRituals = () => {
                     ₹{ritual.price}
                   </p>
                 </div>
-                <button className="bg-emerald-950 text-white px-8 py-3 rounded-full text-xs font-bold hover:bg-amber-500 transition-colors">
+                <a href="tel:+918296962786" className="bg-emerald-950 text-white px-8 py-3 rounded-full text-xs font-bold hover:bg-amber-500 transition-colors">
                   Inquire Now
-                </button>
+                </a>
               </div>
             </motion.div>
           ))}
@@ -1751,8 +1746,7 @@ export default function Home() {
       <Navbar />
       <FloatingCTA />
 
-      {/* Pass the booking trigger to the Hero button */}
-      <Hero onBookClick={() => setIsBookingOpen(true)} />
+      <Hero />
 
       <div className="relative z-10 bg-white">
         <Services />
